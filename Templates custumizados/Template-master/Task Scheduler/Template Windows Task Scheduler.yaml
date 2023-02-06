@@ -1,0 +1,151 @@
+zabbix_export:
+  version: '5.4'
+  date: '2022-09-27T12:46:34Z'
+  groups:
+    -
+      uuid: 548049af8afd476e8484e5195778613f
+      name: Template/Customizado
+  templates:
+    -
+      uuid: c1dfe2cab7e6425bb20be1a0f6e7910f
+      template: 'Template Windows Task Scheduler'
+      name: 'Template Windows Task Scheduler'
+      description: 'Discover and monitor all Task from "Task Scheduler Library" with subfolders indicate in powershell script.'
+      groups:
+        -
+          name: Template/Customizado
+      discovery_rules:
+        -
+          uuid: 5cfd46d0b9d1404986574b1c85bcd1ed
+          name: 'Discovery Task Scheduler'
+          key: 'TaskSchedulerMonitoring[discovertasks]'
+          delay: 2h
+          lifetime: '0'
+          description: 'Discover all Task at "Task Scheduler Libraray" with Subfolders indicate in powershell script.'
+          item_prototypes:
+            -
+              uuid: 710e6315f990440bafdab86315076a30
+              name: 'Task: {#APPTASKS}: Last Result'
+              key: 'TaskSchedulerMonitoring[TaskLastResult,{#APPTASKS}]'
+              delay: 2m
+              history: 1w
+              trends: 90d
+              status: DISABLED
+              discover: NO_DISCOVER
+              description: |
+                Last Result of Task, numeric value
+                in most cases 0 = succesfull
+              valuemap:
+                name: scheduledtask
+              tags:
+                -
+                  tag: Application
+                  value: 'Task Scheduler'
+              trigger_prototypes:
+                -
+                  uuid: 00369e0316c0424889fa34dc103975de
+                  expression: 'last(/Template Windows Task Scheduler/TaskSchedulerMonitoring[TaskLastResult,{#APPTASKS}])<>0 and last(/Template Windows Task Scheduler/TaskSchedulerMonitoring[TaskLastResult,{#APPTASKS}])<>267009 and last(/Template Windows Task Scheduler/TaskSchedulerMonitoring[TaskLastResult,{#APPTASKS}])<>1'
+                  name: 'Ultimo Status de {#APPTASKS} Erro !'
+                  priority: HIGH
+            -
+              uuid: 071ff1e2a0914c10bfbac4ff7337a263
+              name: 'Task: {#APPTASKS}: Last Run Time'
+              key: 'TaskSchedulerMonitoring[TaskLastRunTime,{#APPTASKS}]'
+              delay: 2m
+              history: 1w
+              trends: 90d
+              status: DISABLED
+              discover: NO_DISCOVER
+              units: unixtime
+              description: 'Last Run Time of Task as an unixtimestamp'
+              tags:
+                -
+                  tag: Application
+                  value: 'Task Scheduler'
+            -
+              uuid: f10ced65118546fa8575ea4718d210d8
+              name: 'Task: {#APPTASKS}: Next Run Time'
+              key: 'TaskSchedulerMonitoring[TaskNextRunTime,{#APPTASKS}]'
+              delay: 2m
+              history: 1w
+              trends: 90d
+              status: DISABLED
+              discover: NO_DISCOVER
+              units: unixtime
+              description: 'Next Run Time of Task as an unixtimestamp'
+              tags:
+                -
+                  tag: Application
+                  value: 'Task Scheduler'
+            -
+              uuid: 87a9b68412b642a0bc5a035eff5b7d65
+              name: 'Task: {#APPTASKS}: State'
+              key: 'TaskSchedulerMonitoring[TaskState,{#APPTASKS}]'
+              delay: 2m
+              history: 2w
+              trends: '0'
+              value_type: TEXT
+              description: 'State of Task (Fire trigger on Disabled)'
+              tags:
+                -
+                  tag: Application
+                  value: 'Task Scheduler'
+              trigger_prototypes:
+                -
+                  uuid: bb14164409304338a3fa5cf02c8f3b2f
+                  expression: 'find(/Template Windows Task Scheduler/TaskSchedulerMonitoring[TaskState,{#APPTASKS}],,"regexp","Disabled")=1'
+                  name: 'Tarefa "{#APPTASKS}" Desativada'
+                  priority: HIGH
+      valuemaps:
+        -
+          uuid: ce6e3d6b359840ceb4c9b393c84f4b53
+          name: scheduledtask
+          mappings:
+            -
+              value: '0'
+              newvalue: Sucesso
+            -
+              value: '1'
+              newvalue: 'Função incorreta ou desconhecida chamada'
+            -
+              value: '2'
+              newvalue: 'Arquivo não encontrado'
+            -
+              value: '10'
+              newvalue: 'Ambiente incorreto'
+            -
+              value: '267008'
+              newvalue: 'A tarefa está pronta para ser executada no próximo horário agend'
+            -
+              value: '267009'
+              newvalue: 'A tarefa está em execução'
+            -
+              value: '267011'
+              newvalue: 'A tarefa ainda não está concluída'
+            -
+              value: '267012'
+              newvalue: 'Il n''y a plus d''opérations programmées pour cette tâche'
+            -
+              value: '267014'
+              newvalue: 'Não há mais operações agendadas para esta tarefa'
+            -
+              value: '2147750671'
+              newvalue: 'Credenciais corrompidas'
+            -
+              value: '2147750687'
+              newvalue: 'Uma instância desta tarefa já está em execução'
+            -
+              value: '2147942401'
+              newvalue: 'Função incorreta ou desconhecida chamada'
+            -
+              value: '2147942402'
+              newvalue: 'Um dos arquivos não está disponível'
+            -
+              value: '2147942667'
+              newvalue: 'O diretório "iniciar em" não pode ser encontrado'
+            -
+              value: '2147943645'
+              newvalue: 'O serviço não está disponível'
+            -
+              value: '3228369022'
+              newvalue: 'Exceção de software desconhecida'

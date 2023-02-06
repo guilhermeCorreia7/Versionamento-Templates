@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.2</version>
+    <date>2023-02-06T15:42:46Z</date>
+    <groups>
+        <group>
+            <name>Template/Customizado</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template Consumo de Banda percentage v1</template>
+            <name>Template Consumo de Banda percentage v1</name>
+            <groups>
+                <group>
+                    <name>Template/Customizado</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Consumo Interface</name>
+                </application>
+                <application>
+                    <name>VPN Status</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Consumo download Interface: 01 {$LINK01}</name>
+                    <type>CALCULATED</type>
+                    <key>download_interface01</key>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <params>100*last(&quot;net.if.in[ifHCInOctets.2]&quot;)/{$LARG_BANDA_01}</params>
+                    <applications>
+                        <application>
+                            <name>Consumo Interface</name>
+                        </application>
+                    </applications>
+                    <request_method>POST</request_method>
+                    <triggers>
+                        <trigger>
+                            <expression>{avg(10m)}&gt;=90</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{avg(10m)}&lt;=87</recovery_expression>
+                            <name>Alto consumo na interface: {$LINK01} acima de 90%</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Consumo download Interface: 02 {$LINK02}</name>
+                    <type>CALCULATED</type>
+                    <key>download_interface02</key>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <params>100*last(&quot;net.if.in[ifHCInOctets.6]&quot;)/{$LARG_BANDA_02}</params>
+                    <applications>
+                        <application>
+                            <name>Consumo Interface</name>
+                        </application>
+                    </applications>
+                    <request_method>POST</request_method>
+                    <triggers>
+                        <trigger>
+                            <expression>{avg(10m)}&gt;=90</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{avg(10m)}&lt;=87</recovery_expression>
+                            <name>Alto consumo na interface: {$LINK02} acima de 90%</name>
+                            <opdata>Valor atual: {ITEM.LASTVALUE}</opdata>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Consumo download Interface: 03 {$LINK03}</name>
+                    <type>CALCULATED</type>
+                    <key>download_interface03</key>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <params>100*last(&quot;net.if.in[ifHCInOctets.17]&quot;)/{$LARG_BANDA_03}</params>
+                    <applications>
+                        <application>
+                            <name>Consumo Interface</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{avg(10m)}&gt;=90</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{avg(10m)}&lt;=87</recovery_expression>
+                            <name>Alto consumo na interface: {$LINK03} acima de 90%</name>
+                            <opdata>Valor atual: {ITEM.LASTVALUE}</opdata>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Consumo Upload {$LINK01}</name>
+                    <type>CALCULATED</type>
+                    <key>upload_interface01</key>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <params>100*last({$LINK_INTERACE_UPLOAD_01})/{$LARG_BANDA_01}</params>
+                    <applications>
+                        <application>
+                            <name>Consumo Interface</name>
+                        </application>
+                    </applications>
+                    <request_method>POST</request_method>
+                </item>
+                <item>
+                    <name>Consumo Upload {$LINK02}</name>
+                    <type>CALCULATED</type>
+                    <key>upload_interface02</key>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <params>100*last({$LINK_INTERACE_UPLOAD_02})/{$LARG_BANDA_02}</params>
+                    <applications>
+                        <application>
+                            <name>Consumo Interface</name>
+                        </application>
+                    </applications>
+                    <request_method>POST</request_method>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$LARG_BANDA_01}</macro>
+                    <value>CHANGE BANDWIDTH 01</value>
+                    <description>Banda Total MB Link 01</description>
+                </macro>
+                <macro>
+                    <macro>{$LARG_BANDA_02}</macro>
+                    <value>CHANGE BANDWIDTH 02</value>
+                    <description>Banda Total MB Link 02</description>
+                </macro>
+                <macro>
+                    <macro>{$LARG_BANDA_03}</macro>
+                    <value>CHANGE BANDWIDTH 03</value>
+                    <description>Banda Total MB Link 03</description>
+                </macro>
+                <macro>
+                    <macro>{$LINK01}</macro>
+                    <value>CHANGE LINK NAME 01</value>
+                    <description>Nome do Link</description>
+                </macro>
+                <macro>
+                    <macro>{$LINK02}</macro>
+                    <value>CHANGE LINK NAME 02</value>
+                    <description>Nome do Link</description>
+                </macro>
+                <macro>
+                    <macro>{$LINK03}</macro>
+                    <value>CHANGE LINK NAME 03</value>
+                    <description>Nome do Link</description>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>

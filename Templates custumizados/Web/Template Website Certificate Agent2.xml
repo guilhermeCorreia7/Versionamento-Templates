@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.4</version>
+    <date>2023-02-06T14:43:34Z</date>
+    <groups>
+        <group>
+            <uuid>548049af8afd476e8484e5195778613f</uuid>
+            <name>Template/Customizado</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <uuid>c4590ec594184cf89715c54c9982e6f2</uuid>
+            <template>Template Website certificate by Zabbix agent 2</template>
+            <name>Template Website certificate by Zabbix agent 2</name>
+            <groups>
+                <group>
+                    <name>Template/Customizado</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>695c0ab303a84a1f83872a7bd8d323a1</uuid>
+                    <name>Cert: Expires on</name>
+                    <type>DEPENDENT</type>
+                    <key>cert.not_after</key>
+                    <delay>0</delay>
+                    <units>!Days</units>
+                    <preprocessing>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var result = JSON.parse(value);
+
+var dateEnd = result.x509.not_after.timestamp; // receiver timestamp in 10 digit format from date end certificate expire
+
+var dateNow = parseInt(Date.now() / 1000, 10); // generate timestamp from now in 13 digit format, and convert to 10 digit format using radix 10
+
+var dateEndInDays = dateEnd / 86400; // convert date end timestamp to days
+
+var dateNowInDays = dateNow / 86400; // convert date now timestamp to days
+
+var dateDiff = dateEndInDays - dateNowInDays; // generate diff between date end and date now
+
+return parseInt(dateDiff, 10); // return round value on integer days format</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>web.certificate.get[{$CERT.WEBSITE.HOSTNAME}]</key>
+                    </master_item>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Certificate</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>9d715058987c4052810807628af91834</uuid>
+                            <expression>last(/Template Website certificate by Zabbix agent 2/cert.not_after)&lt;{$CERT.EXPIRY.DISASTER}</expression>
+                            <name>Certificado irá Expirar em {$CERT.EXPIRY.DISASTER}</name>
+                            <opdata>Valor atual: {ITEM.VALUE}</opdata>
+                            <priority>DISASTER</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                        <trigger>
+                            <uuid>dcd3fdc23d474c19b60783b84db80222</uuid>
+                            <expression>last(/Template Website certificate by Zabbix agent 2/cert.not_after)&lt;{$CERT.EXPIRY.HIGH}</expression>
+                            <name>Certificado irá Expirar em {$CERT.EXPIRY.HIGH}</name>
+                            <opdata>Valor atual: {ITEM.VALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Certificado irá Expirar em {$CERT.EXPIRY.DISASTER}</name>
+                                    <expression>last(/Template Website certificate by Zabbix agent 2/cert.not_after)&lt;{$CERT.EXPIRY.DISASTER}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                        <trigger>
+                            <uuid>32dcfc5a44354bce962189ab20be2444</uuid>
+                            <expression>last(/Template Website certificate by Zabbix agent 2/cert.not_after)&lt;{$CERT.EXPIRY.WARN}</expression>
+                            <name>Certificado irá Expirar em {$CERT.EXPIRY.WARN}</name>
+                            <opdata>Valor atual: {ITEM.VALUE}</opdata>
+                            <priority>AVERAGE</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Certificado irá Expirar em {$CERT.EXPIRY.DISASTER}</name>
+                                    <expression>last(/Template Website certificate by Zabbix agent 2/cert.not_after)&lt;{$CERT.EXPIRY.DISASTER}</expression>
+                                </dependency>
+                                <dependency>
+                                    <name>Certificado irá Expirar em {$CERT.EXPIRY.HIGH}</name>
+                                    <expression>last(/Template Website certificate by Zabbix agent 2/cert.not_after)&lt;{$CERT.EXPIRY.HIGH}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>b9027e9b6a484c71b8a3b43bbc8f9797</uuid>
+                    <name>Cert: Validation result</name>
+                    <type>DEPENDENT</type>
+                    <key>cert.validation</key>
+                    <delay>0</delay>
+                    <status>DISABLED</status>
+                    <valuemap>
+                        <name>Cert: Validation result</name>
+                    </valuemap>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.result.value</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var stats = 0;
+
+if(value.includes('valid')){
+  stats = 1;
+}
+
+return stats;</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>web.certificate.get[{$CERT.WEBSITE.HOSTNAME}]</key>
+                    </master_item>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Certificate</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>4058792c1b40412b8e26fd686b2ad9e6</uuid>
+                            <expression>last(/Template Website certificate by Zabbix agent 2/cert.validation)&lt;&gt;1</expression>
+                            <name>Certificado não é valido</name>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>8d7c2b928534495598651c6e25476a2a</uuid>
+                    <name>Cert: Get</name>
+                    <key>web.certificate.get[{$CERT.WEBSITE.HOSTNAME}]</key>
+                    <delay>1d</delay>
+                    <history>0</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Raw Data</value>
+                        </tag>
+                    </tags>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$CERT.EXPIRY.DISASTER}</macro>
+                    <value>5</value>
+                    <description>Number of days until the certificate expires.</description>
+                </macro>
+                <macro>
+                    <macro>{$CERT.EXPIRY.HIGH}</macro>
+                    <value>15</value>
+                    <description>Number of days until the certificate expires.</description>
+                </macro>
+                <macro>
+                    <macro>{$CERT.EXPIRY.WARN}</macro>
+                    <value>30</value>
+                    <description>Number of days until the certificate expires.</description>
+                </macro>
+                <macro>
+                    <macro>{$CERT.WEBSITE.HOSTNAME}</macro>
+                    <value>URL</value>
+                    <description>The website DNS name for the connection.</description>
+                </macro>
+                <macro>
+                    <macro>{$CERT.WEBSITE.IP}</macro>
+                    <value>``</value>
+                    <description>The website IP address for the connection.</description>
+                </macro>
+                <macro>
+                    <macro>{$CERT.WEBSITE.PORT}</macro>
+                    <value>443</value>
+                    <description>The TLS/SSL port number of the website.</description>
+                </macro>
+            </macros>
+            <valuemaps>
+                <valuemap>
+                    <uuid>11b0b67ca7ef42a2b5adabbbe1adb090</uuid>
+                    <name>Cert: Validation result</name>
+                    <mappings>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>Valid</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>0</value>
+                            <newvalue>Problem</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+    </templates>
+</zabbix_export>

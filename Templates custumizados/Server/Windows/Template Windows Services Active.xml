@@ -1,0 +1,1078 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.4</version>
+    <date>2023-02-06T14:26:44Z</date>
+    <groups>
+        <group>
+            <uuid>548049af8afd476e8484e5195778613f</uuid>
+            <name>Template/Customizado</name>
+        </group>
+        <group>
+            <uuid>57b7ae836ca64446ba2c296389c009b7</uuid>
+            <name>Templates/Modules</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <uuid>3366a65bbc3e46348bec303e84e23b15</uuid>
+            <template>Template Module Windows services by Zabbix agent active</template>
+            <name>Template Module Windows services by Zabbix agent active</name>
+            <description>Template Services OS Windows
+
+Template tooling version used: 0.34</description>
+            <groups>
+                <group>
+                    <name>Templates/Modules</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>25e19e75eb4d4fd68df976323c7fac21</uuid>
+                    <name>Windows services discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>service.discovery</key>
+                    <delay>1h</delay>
+                    <filter>
+                        <evaltype>AND</evaltype>
+                        <conditions>
+                            <condition>
+                                <macro>{#SERVICE.NAME}</macro>
+                                <value>{$SERVICE.NAME.MATCHES}</value>
+                                <formulaid>A</formulaid>
+                            </condition>
+                            <condition>
+                                <macro>{#SERVICE.NAME}</macro>
+                                <value>{$SERVICE.NAME.NOT_MATCHES}</value>
+                                <operator>NOT_MATCHES_REGEX</operator>
+                                <formulaid>B</formulaid>
+                            </condition>
+                            <condition>
+                                <macro>{#SERVICE.STARTUPNAME}</macro>
+                                <value>{$SERVICE.STARTUPNAME.MATCHES}</value>
+                                <formulaid>C</formulaid>
+                            </condition>
+                            <condition>
+                                <macro>{#SERVICE.STARTUPNAME}</macro>
+                                <value>{$SERVICE.STARTUPNAME.NOT_MATCHES}</value>
+                                <operator>NOT_MATCHES_REGEX</operator>
+                                <formulaid>D</formulaid>
+                            </condition>
+                        </conditions>
+                    </filter>
+                    <description>Discovery of Windows services of different types as defined in template's macros.</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>c1606f1f7c9e4eb494c0c5e4e4f21ea5</uuid>
+                            <name>State of service &quot;{#SERVICE.NAME}&quot; ({#SERVICE.DISPLAYNAME})</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>service.info[&quot;{#SERVICE.NAME}&quot;,state]</key>
+                            <delay>3m</delay>
+                            <history>7d</history>
+                            <valuemap>
+                                <name>Windows service state</name>
+                            </valuemap>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Services</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>df3247515e2e4b48b2decd8401c11736</uuid>
+                                    <expression>min(/Template Module Windows services by Zabbix agent active/service.info[&quot;{#SERVICE.NAME}&quot;,state],#3)&lt;&gt;0</expression>
+                                    <name>&quot;{#SERVICE.NAME}&quot; ({#SERVICE.DISPLAYNAME}) is not running (startup type {#SERVICE.STARTUPNAME})</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>The service has a state other than &quot;Running&quot; for the last three times.</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$SERVICE.NAME.MATCHES}</macro>
+                    <value>^.*$</value>
+                    <description>This macro is used in Service discovery. Can be overridden on the host or linked template level.</description>
+                </macro>
+                <macro>
+                    <macro>{$SERVICE.NAME.NOT_MATCHES}</macro>
+                    <value>^RemoteRegistry|MMCSS|gupdate|SysmonLog|clr_optimization_v.+|clr_optimization_v.+|sppsvc|gpsvc|Pml Driver HPZ12|Net Driver HPZ12|MapsBroker|IntelAudioService|Intel\(R\) TPM Provisioning Service|dbupdate|DoSvc$</value>
+                    <description>This macro is used in Service discovery. Can be overridden on the host or linked template level.</description>
+                </macro>
+                <macro>
+                    <macro>{$SERVICE.STARTUPNAME.MATCHES}</macro>
+                    <value>^automatic|automatic delayed$</value>
+                    <description>This macro is used in Service discovery. Can be overridden on the host or linked template level.</description>
+                </macro>
+                <macro>
+                    <macro>{$SERVICE.STARTUPNAME.NOT_MATCHES}</macro>
+                    <value>^manual|disabled$</value>
+                    <description>This macro is used in Service discovery. Can be overridden on the host or linked template level.</description>
+                </macro>
+            </macros>
+            <valuemaps>
+                <valuemap>
+                    <uuid>af7bd46d70ed4058afa4961d130dc0b2</uuid>
+                    <name>Windows service state</name>
+                    <mappings>
+                        <mapping>
+                            <value>0</value>
+                            <newvalue>Running</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>Paused</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>3</value>
+                            <newvalue>Pause pending</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>4</value>
+                            <newvalue>Continue pending</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>5</value>
+                            <newvalue>Stop pending</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>6</value>
+                            <newvalue>Stopped</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>7</value>
+                            <newvalue>Unknown</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>255</value>
+                            <newvalue>No such service</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>2</value>
+                            <newvalue>Start pending</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+        <template>
+            <uuid>b2e1c6b75e1643188ca3d123ee938643</uuid>
+            <template>Template Windows Server Active - Randon</template>
+            <name>Template Windows Server Active - Randon</name>
+            <description>Template para monitoramento de Windows Server.</description>
+            <templates>
+                <template>
+                    <name>Template Module ICMP Ping Randon - No Triggers</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>Template/Customizado</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>4d5f1a12db014681b064d6ea57879131</uuid>
+                    <name>agent.ping</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>agent.ping</key>
+                    <delay>2m</delay>
+                    <valuemap>
+                        <name>Zabbix agent ping status</name>
+                    </valuemap>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Agent</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>4ca4c3b5549345a28de316937207f6df</uuid>
+                            <expression>nodata(/Template Windows Server Active - Randon/agent.ping,{$TIME_AGENT})=1</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>nodata(/Template Windows Server Active - Randon/agent.ping,{$TIME_AGENT})&lt;&gt;1</recovery_expression>
+                            <name>O agent esta indisponivel por [ {$TIME_AGENT} ] minutos</name>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>74f883340ade4894af666aff1fba8d1e</uuid>
+                    <name>Arquivo lido bytes por segundo</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>perf_counter[\2\16]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <value_type>FLOAT</value_type>
+                    <units>Bps</units>
+                    <description>Full counter name: \System\File Read Bytes/sec</description>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>357b8ef5226a412e8b001490bb776d2d</uuid>
+                    <name>Bytes de gravação de arquivo por segundo</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>perf_counter[\2\18]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <value_type>FLOAT</value_type>
+                    <units>Bps</units>
+                    <description>Full counter name: \System\File Write Bytes/sec</description>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Filesystems</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>07d343bdf84245c087e4e541683fb363</uuid>
+                    <name>Number of threads</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>perf_counter[\2\250]</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <description>Full counter name: \System\Threads</description>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>c6b73c7c23e5401b9e02939b4f3d9ca7</uuid>
+                    <name>Average disk read queue length</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>perf_counter[\234(_Total)\1402]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <description>Full counter name: \PhysicalDisk(_Total)\Avg. Disk Read Queue Length</description>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Filesystems</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>76dba61147ad4d2c933f188a418e99be</uuid>
+                    <name>Média da fila de gravação em disco</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>perf_counter[\234(_Total)\1404]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <value_type>FLOAT</value_type>
+                    <description>Full counter name: \PhysicalDisk(_Total)\Avg. Disk Write Queue Length</description>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>84cc04d99c62411180f0becf9f302c2a</uuid>
+                    <name>Paging File</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>perf_counter[\Paging File(_Total)\% Usage]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>perf_counter[\Paging File(_Total)\% Usage]</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>8eb98022551c4175ad5798f1a3e6d2c0</uuid>
+                    <name>Number of processes</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.num[]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Processes</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>979ee7f56e1442edaaa374c3632c6a3b</uuid>
+                            <expression>avg(/Template Windows Server Active - Randon/proc.num[],10m)&gt;300</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>avg(/Template Windows Server Active - Randon/proc.num[],10m)&lt;300</recovery_expression>
+                            <name>Muitos processos executando no {HOST.NAME}</name>
+                            <status>DISABLED</status>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>2b8097097c5f422eae620726e0e416e6</uuid>
+                    <name>Status do serviço SIEM Rapid7 Insight Agent</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>service.info[ir_agent,state]</key>
+                    <delay>3m</delay>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Services</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>441914da729c40b78bfc1f81dc8961c0</uuid>
+                            <expression>min(/Template Windows Server Active - Randon/service.info[ir_agent,state],5s)&lt;&gt;0</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>max(/Template Windows Server Active - Randon/service.info[ir_agent,state],5s)=0</recovery_expression>
+                            <name>Agente Rapid 7 Insight Agent está parado</name>
+                            <event_name>Agente Rapid 7 Insight Agent está parado</event_name>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>dddeb1e347514fad8a719512ae1a83d7</uuid>
+                    <name>Processor load (1 min average)</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.cpu.load[percpu,avg1]</key>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>9cf69fe0ad914d7980919ac9e545ec02</uuid>
+                    <name>Processor load (5 min average)</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.cpu.load[percpu,avg5]</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>a4f4aa51138d44ffbbbf39f2e62683f2</uuid>
+                    <name>Processor load (15 min average)</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.cpu.load[percpu,avg15]</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>1e4d671e017c4fa2aeef20c0176fbff0</uuid>
+                    <name>Utilização de CPU %</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.cpu.util[]</key>
+                    <delay>5m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>cafc7286363d415ea6595cdf6b848f61</uuid>
+                            <expression>avg(/Template Windows Server Active - Randon/system.cpu.util[],{$TIME_CPU})&gt;{$CPU_UTILIZATION}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>last(/Template Windows Server Active - Randon/system.cpu.util[])&lt;{$CPU_UTILIZATION}</recovery_expression>
+                            <name>Utilização de CPU nos últimos {$TIME_CPU} é {ITEM.VALUE}</name>
+                            <priority>AVERAGE</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>410c398696fa4e6e84e06ed5efaee162</uuid>
+                    <name>Total swap space</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.swap.size[,total]</key>
+                    <delay>1h</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <units>B</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>354adeeaf0a041fcb977eec95ec7ea46</uuid>
+                    <name>Free swap space</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.swap.size[free]</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <units>B</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>c088ffb6037f4fd0b8bd7ddbb13733d7</uuid>
+                    <name>Informação do Sistema</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.uname</key>
+                    <delay>1d</delay>
+                    <history>1w</history>
+                    <trends>0</trends>
+                    <status>DISABLED</status>
+                    <value_type>CHAR</value_type>
+                    <inventory_link>OS</inventory_link>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>44e7953c754443088cfbed8352371566</uuid>
+                    <name>Uptime do Sistema</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.uptime</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <units>uptime</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>40a0463e5298459aa54b00064f3b6ece</uuid>
+                            <expression>change(/Template Windows Server Active - Randon/system.uptime)&lt;0</expression>
+                            <name>Servidor acabou de ser reiniciado</name>
+                            <priority>AVERAGE</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>65fee535d61d44208189b97a90459798</uuid>
+                    <name>Memoria Livre</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vm.memory.size[free]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <units>B</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>d2b9d432d4924ee9897a1c1b059987d9</uuid>
+                            <expression>last(/Template Windows Server Active - Randon/vm.memory.size[free])&lt;10000</expression>
+                            <name>Falta de memória livre no servidor {HOST.NAME}</name>
+                            <status>DISABLED</status>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>84c5e2715a374a0d8cb71490536b0d69</uuid>
+                    <name>Utilização de Memória %</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vm.memory.size[pused]</key>
+                    <delay>5m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>b65fbfd78af54a0aa884ad7e46fa98a2</uuid>
+                            <expression>avg(/Template Windows Server Active - Randon/vm.memory.size[pused],{$TIME_MEMORY})&gt;{$MEMORY_UTILIZATION}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>last(/Template Windows Server Active - Randon/vm.memory.size[pused])&lt;{$MEMORY_UTILIZATION}</recovery_expression>
+                            <name>Utilização de Memória nos últimos {$TIME_MEMORY} é {ITEM.VALUE}</name>
+                            <priority>AVERAGE</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>b455cf065ea2435cb4ac2a8f1d87f77b</uuid>
+                    <name>Total Memoria</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vm.memory.size[total]</key>
+                    <delay>1h</delay>
+                    <history>1w</history>
+                    <units>B</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>1f5e59ed58684e1b9d3d737dac14849f</uuid>
+                    <name>Utilização de Memória</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vm.memory.size[used]</key>
+                    <delay>5m</delay>
+                    <units>B</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>ba52ee11109d45c797814e72a9fd6d9a</uuid>
+                    <name>Memoria  Disponível Virtual , in %</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vm.vmemory.size[pavailable]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>0eedfdab50e143e7a07791ac9238d9bf</uuid>
+                    <name>Network interface discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>net.if.discovery</key>
+                    <delay>1h</delay>
+                    <filter>
+                        <conditions>
+                            <condition>
+                                <macro>{#IFNAME}</macro>
+                                <value>vmxnet3</value>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
+                    </filter>
+                    <lifetime>0d</lifetime>
+                    <description>Discovery of network interfaces as defined in global regular expression &quot;Network interfaces for discovery&quot;.</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>0fc04cfc0ecc4de68b94730c434100af</uuid>
+                            <name>Incoming network traffic on $1</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>net.if.in[{#IFNAME}]</key>
+                            <delay>5m</delay>
+                            <history>1w</history>
+                            <units>bps</units>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <parameters>
+                                        <parameter>8</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Network interfaces</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>9080c78d170c446c9d46e285bcd7ef6e</uuid>
+                            <name>Outgoing network traffic on $1</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>net.if.out[{#IFNAME}]</key>
+                            <delay>5m</delay>
+                            <history>1w</history>
+                            <units>bps</units>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <parameters>
+                                        <parameter>8</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Network interfaces</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <uuid>4f055b47a3c94523aa1f1c2d1cec02e8</uuid>
+                            <name>Network traffic on {#IFNAME}</name>
+                            <ymin_type_1>FIXED</ymin_type_1>
+                            <graph_items>
+                                <graph_item>
+                                    <drawtype>GRADIENT_LINE</drawtype>
+                                    <color>00AA00</color>
+                                    <item>
+                                        <host>Template Windows Server Active - Randon</host>
+                                        <key>net.if.in[{#IFNAME}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>GRADIENT_LINE</drawtype>
+                                    <color>3333FF</color>
+                                    <item>
+                                        <host>Template Windows Server Active - Randon</host>
+                                        <key>net.if.out[{#IFNAME}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                    <request_method>POST</request_method>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>1a685b1a76924a0fac833046e35a0c37</uuid>
+                    <name>Mounted filesystem discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vfs.fs.discovery</key>
+                    <delay>1h</delay>
+                    <filter>
+                        <conditions>
+                            <condition>
+                                <macro>{#FSTYPE}</macro>
+                                <value>@File systems for discovery</value>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
+                    </filter>
+                    <lifetime>1d</lifetime>
+                    <description>Discovery of file systems of different types as defined in global regular expression &quot;File systems for discovery&quot;.</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>b54e9abd072d41048cbcd5cf7a36cf61</uuid>
+                            <name>Espaço livre no disco $1</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>vfs.fs.size[{#FSNAME},free]</key>
+                            <delay>5m</delay>
+                            <history>1w</history>
+                            <units>B</units>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>76ca709ede6443628cf590895c409844</uuid>
+                            <name>Espaço livre no disco $1 (percentage)</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>vfs.fs.size[{#FSNAME},pfree]</key>
+                            <delay>5m</delay>
+                            <history>1w</history>
+                            <value_type>FLOAT</value_type>
+                            <units>%</units>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>539ae85c1d1a4ad9a0d83ed6bef48d5b</uuid>
+                            <name>Espaço em disco utilizado no {#FSNAME} (percentage)</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>vfs.fs.size[{#FSNAME},pused]</key>
+                            <delay>5m</delay>
+                            <history>1w</history>
+                            <value_type>FLOAT</value_type>
+                            <units>%</units>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>517bec7e160b493bba027d2904741476</uuid>
+                            <name>Espaço total no disco $1</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>vfs.fs.size[{#FSNAME},total]</key>
+                            <delay>1h</delay>
+                            <history>1w</history>
+                            <units>B</units>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>58da864340be47699c02fb51ef234d64</uuid>
+                            <name>Espaço em disco utilizado no $1</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>vfs.fs.size[{#FSNAME},used]</key>
+                            <delay>5m</delay>
+                            <history>1w</history>
+                            <units>B</units>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <uuid>1b5d4ba03b23475385452a1a10bc9a81</uuid>
+                            <expression>max(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},pfree],{$FS_TIME})&lt;={$FS_AVERAGE_0: &quot;{#FSNAME}&quot;} and avg(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},free],30m)&lt;={$FS.BYTE.AVERAGE: &quot;{#FSNAME}&quot;}</expression>
+                            <name>O espaço livre em disco é baixo (menos de {$FS_AVERAGE_0: &quot;{#FSNAME}&quot;}% espaço livre abaixo de 30GB) na partição: {#FSNAME}</name>
+                            <opdata>Espaço livre atual: {ITEM.LASTVALUE2}</opdata>
+                            <priority>AVERAGE</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>O espaço livre em disco é baixo (menos de {$FS_HIGH_0: &quot;{#FSNAME}&quot;}% espaço livre abaixo de 20GB) na partição: {#FSNAME}</name>
+                                    <expression>max(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},pfree],{$FS_TIME})&lt;={$FS_HIGH_0: &quot;{#FSNAME}&quot;} and avg(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},free],10m)&lt;={$FS.BYTE.HIGH: &quot;{#FSNAME}&quot;}</expression>
+                                </dependency>
+                                <dependency>
+                                    <name>O espaço livre em disco é crítico (menos de {$FS_DISASTER_0: &quot;{#FSNAME}&quot;}% espaço livre abaixo de 10GB) na partição: {#FSNAME}</name>
+                                    <expression>last(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},pfree])&lt;={$FS_DISASTER_0: &quot;{#FSNAME}&quot;} and last(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},free])&lt;={$FS.BYTE.DISASTER: &quot;{#FSNAME}&quot;}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <uuid>86add1ab24ef491bacd31b7f43d77186</uuid>
+                            <expression>max(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},pfree],{$FS_TIME})&lt;={$FS_HIGH_0: &quot;{#FSNAME}&quot;} and avg(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},free],10m)&lt;={$FS.BYTE.HIGH: &quot;{#FSNAME}&quot;}</expression>
+                            <name>O espaço livre em disco é baixo (menos de {$FS_HIGH_0: &quot;{#FSNAME}&quot;}% espaço livre abaixo de 20GB) na partição: {#FSNAME}</name>
+                            <opdata>Espaço livre atual: {ITEM.LASTVALUE2}</opdata>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>O espaço livre em disco é crítico (menos de {$FS_DISASTER_0: &quot;{#FSNAME}&quot;}% espaço livre abaixo de 10GB) na partição: {#FSNAME}</name>
+                                    <expression>last(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},pfree])&lt;={$FS_DISASTER_0: &quot;{#FSNAME}&quot;} and last(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},free])&lt;={$FS.BYTE.DISASTER: &quot;{#FSNAME}&quot;}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <uuid>516e33f56d944b5f938338f97b595f55</uuid>
+                            <expression>last(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},pfree])&lt;={$FS_DISASTER_0: &quot;{#FSNAME}&quot;} and last(/Template Windows Server Active - Randon/vfs.fs.size[{#FSNAME},free])&lt;={$FS.BYTE.DISASTER: &quot;{#FSNAME}&quot;}</expression>
+                            <name>O espaço livre em disco é crítico (menos de {$FS_DISASTER_0: &quot;{#FSNAME}&quot;}% espaço livre abaixo de 10GB) na partição: {#FSNAME}</name>
+                            <opdata>Espaço livre atual: {ITEM.LASTVALUE2}</opdata>
+                            <priority>DISASTER</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger_prototype>
+                    </trigger_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <uuid>35f02a9b4da64f06b8027b0421bf97a8</uuid>
+                            <name>Disk space usage {#FSNAME}</name>
+                            <width>600</width>
+                            <height>340</height>
+                            <show_work_period>NO</show_work_period>
+                            <show_triggers>NO</show_triggers>
+                            <type>PIE</type>
+                            <show_3d>YES</show_3d>
+                            <graph_items>
+                                <graph_item>
+                                    <color>C80000</color>
+                                    <type>GRAPH_SUM</type>
+                                    <item>
+                                        <host>Template Windows Server Active - Randon</host>
+                                        <key>vfs.fs.size[{#FSNAME},total]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <color>00C800</color>
+                                    <item>
+                                        <host>Template Windows Server Active - Randon</host>
+                                        <key>vfs.fs.size[{#FSNAME},free]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                    <request_method>POST</request_method>
+                </discovery_rule>
+            </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$CPU_UTILIZATION}</macro>
+                    <value>95</value>
+                </macro>
+                <macro>
+                    <macro>{$FS.BYTE.AVERAGE}</macro>
+                    <value>32212254720</value>
+                </macro>
+                <macro>
+                    <macro>{$FS.BYTE.DISASTER}</macro>
+                    <value>10737418240</value>
+                </macro>
+                <macro>
+                    <macro>{$FS.BYTE.HIGH}</macro>
+                    <value>21474836480</value>
+                </macro>
+                <macro>
+                    <macro>{$FS_AVERAGE_0}</macro>
+                    <value>10</value>
+                </macro>
+                <macro>
+                    <macro>{$FS_DISASTER_0}</macro>
+                    <value>1</value>
+                </macro>
+                <macro>
+                    <macro>{$FS_HIGH_0}</macro>
+                    <value>5</value>
+                </macro>
+                <macro>
+                    <macro>{$FS_TIME}</macro>
+                    <value>5m</value>
+                </macro>
+                <macro>
+                    <macro>{$MEMORY_UTILIZATION}</macro>
+                    <value>98</value>
+                </macro>
+                <macro>
+                    <macro>{$TIME_AGENT}</macro>
+                    <value>10m</value>
+                </macro>
+                <macro>
+                    <macro>{$TIME_CPU}</macro>
+                    <value>15m</value>
+                </macro>
+                <macro>
+                    <macro>{$TIME_MEMORY}</macro>
+                    <value>15m</value>
+                </macro>
+            </macros>
+            <valuemaps>
+                <valuemap>
+                    <uuid>9ead04f3f49c4a389c461a28dd0025a6</uuid>
+                    <name>List Services (Windows)</name>
+                    <mappings>
+                        <mapping>
+                            <value>0</value>
+                            <newvalue>Running</newvalue>
+                        </mapping>
+                        <mapping>
+                            <type>GREATER_OR_EQUAL</type>
+                            <value>1</value>
+                            <newvalue>Stopped</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+                <valuemap>
+                    <uuid>7553a86d53dd41d0aeac6a0f974a2464</uuid>
+                    <name>Zabbix agent ping status</name>
+                    <mappings>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>Up</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+    </templates>
+    <graphs>
+        <graph>
+            <uuid>b5e7d51e452c4b5b99901cc0285c09ee</uuid>
+            <name>Carregamento de CPU</name>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <graph_items>
+                <graph_item>
+                    <color>009900</color>
+                    <item>
+                        <host>Template Windows Server Active - Randon</host>
+                        <key>system.cpu.load[percpu,avg1]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <color>000099</color>
+                    <item>
+                        <host>Template Windows Server Active - Randon</host>
+                        <key>system.cpu.load[percpu,avg5]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <color>990000</color>
+                    <item>
+                        <host>Template Windows Server Active - Randon</host>
+                        <key>system.cpu.load[percpu,avg15]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>e0e99cb5fe734746bbda5007b7758928</uuid>
+            <name>Memória Disponível</name>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <ymax_type_1>ITEM</ymax_type_1>
+            <ymax_item_1>
+                <host>Template Windows Server Active - Randon</host>
+                <key>vm.memory.size[total]</key>
+            </ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>00C800</color>
+                    <item>
+                        <host>Template Windows Server Active - Randon</host>
+                        <key>vm.memory.size[free]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>c6c31c4380bf45d7a4c6330a56f1b613</uuid>
+            <name>Utilização de CPU %</name>
+            <graph_items>
+                <graph_item>
+                    <drawtype>FILLED_REGION</drawtype>
+                    <color>1A7C11</color>
+                    <item>
+                        <host>Template Windows Server Active - Randon</host>
+                        <key>system.cpu.util[]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>2674917438d0492bb9215520e5b85b24</uuid>
+            <name>Utilização de Memória %</name>
+            <graph_items>
+                <graph_item>
+                    <drawtype>FILLED_REGION</drawtype>
+                    <color>1A7C11</color>
+                    <item>
+                        <host>Template Windows Server Active - Randon</host>
+                        <key>vm.memory.size[pused]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>

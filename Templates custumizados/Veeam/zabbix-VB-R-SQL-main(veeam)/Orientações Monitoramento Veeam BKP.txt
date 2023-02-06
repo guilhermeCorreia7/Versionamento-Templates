@@ -1,0 +1,43 @@
+--- VeeamBKP configuração ---
+
+Veeam local com o banco local também:
+
+1 - Acessar a pasta de instalação do zabbix agent (C:/Program Files/Zabbix Agent)
+
+2 - Criar uma pasta chamada 'scripts' dentro do caminho
+
+3- Copiar o arquivo zabbix_vbr_job para a pasta 'scripts'
+
+4 - Acessar a pasta zabbix_agentd_conf.d
+
+5 - Copiar o arquivo veeam.conf para o caminho
+
+6 - Editar o arquivo veeam.conf e verificar se o caminho está correto (se o caminho da pasta scripts que você criou anteriormente, é o mesmo que está descrito nesse arquivo, caso não seja, ajustar o caminho dentro desse arquivo para o correto.)
+
+7 - Abrir o arquivo zabbix_vbr_job e verificar se as variasveis do veeam está corretas (Para validar, acessar o SQL server 2016 no menu iniciar do windows, o Configuration Manager, acessar a opção SQL Server Services -> Botão direito no serviço do SQL Server (veeam) -> Propriedades -> FILESTREAM).
+
+8 - Abrir o powershell como adm
+
+9 -  No powershell acessar o caminha da pasta do scripts que foi criado acima. cd 'caminho da pasta'
+
+10 - executar o comando .\zabbix_vbr_job.ps1 JobsInfo
+
+	Possiveis troubleshooting:
+		1 - Se retornar um log de erro informando que precisa se assinado digitalmente:
+			Execute o comando no powershell: Set-ExecutionPolicy RemoteSigned;
+			Execute o comando no powershell: Set-ExecutionPolicy Bypass;
+			Tente novamente executar o comando: .\zabbix_vbr_job.ps1 JobsInfo.
+		
+		2 -  Caso o comando retorne um valor zerado ou nulo:
+			Instalar ou abrir o SQL Studio (para fazer um select no banco, e validar os Jobs ID);
+			Acessar o banco VEEAMSQL2016(ou o nome que for);
+			Acessar o arquivo Select BJobs dentro da pasta do template do monitoramento do veeam (select * FROM [VeeamBackup].[dbo].[BJobs] order by type);
+			Observer o 'type' e o 'name' que estão atribuidos ao veeam;
+			Abrir o arquivo do script zabbix_vbr_job;
+			Validar se na linha $typeNames dentro do script, contem o 'type' e o 'name' que retornou na consulta SQL, em caso negativo, adicionar os valores após a ultima linha;
+			Salvar o arquivo, e tente novamente executar o comando: .\zabbix_vbr_job.ps1 JobsInfo
+			
+11 - Importar o template 'EN-Template Veeam Backup And Replication' para o zabbix
+
+12 - Configurar um novo host e testar
+			

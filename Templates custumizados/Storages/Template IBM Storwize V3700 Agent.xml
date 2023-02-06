@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.2</version>
+    <date>2023-02-06T14:19:21Z</date>
+    <groups>
+        <group>
+            <name>Template/Prumo</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template IBM Storage Storwize V3700 - PRUMO</template>
+            <name>Template IBM Storage Storwize V3700 - PRUMO</name>
+            <groups>
+                <group>
+                    <name>Template/Prumo</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Geral</name>
+                </application>
+                <application>
+                    <name>LUN Total Real Capacity</name>
+                </application>
+                <application>
+                    <name>LUN Used % Real Capacity</name>
+                </application>
+                <application>
+                    <name>LUN Used Real Capacity</name>
+                </application>
+                <application>
+                    <name>MDISK</name>
+                </application>
+                <application>
+                    <name>Physical disk</name>
+                </application>
+                <application>
+                    <name>Pool Disk</name>
+                </application>
+                <application>
+                    <name>State LUN</name>
+                </application>
+                <application>
+                    <name>Status Battery</name>
+                </application>
+                <application>
+                    <name>Status Enclosure</name>
+                </application>
+                <application>
+                    <name>Status Lun</name>
+                </application>
+                <application>
+                    <name>Status Physical disk</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>IBM Storwize Discovery Battery</name>
+                    <key>storwize.discovery[{$STORWIZEADDR},battery]</key>
+                    <delay>1h</delay>
+                    <lifetime>0</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Status Battery {#VOLNAME}</name>
+                            <key>storwize.battery.stats[{#STORWIZEADDR},{#VOLNAME},status]</key>
+                            <delay>1h</delay>
+                            <applications>
+                                <application>
+                                    <name>Status Battery</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>Storage IBM</name>
+                            </valuemap>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var stats = 3;
+
+if(value.includes('offline')){
+  stats = 0;
+}
+
+if(value.includes('online')){
+  stats = 1;
+}
+
+return stats;</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;&gt;1</expression>
+                                    <name>Battery {#VOLNAME} is {ITEM.LASTVALUE}</name>
+                                    <priority>DISASTER</priority>
+                                    <manual_close>YES</manual_close>
+                                    <tags>
+                                        <tag>
+                                            <tag>Prumo - Storage</tag>
+                                            <value>Battery</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>IBM Storwize Discovery Physical disk</name>
+                    <key>storwize.discovery[{$STORWIZEADDR},disk]</key>
+                    <delay>1h</delay>
+                    <lifetime>0</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Status Physical disk {#VOLNAME}</name>
+                            <key>storwize.disk.stats[{#STORWIZEADDR},{#VOLNAME},status]</key>
+                            <delay>1h</delay>
+                            <applications>
+                                <application>
+                                    <name>Status Physical disk</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>Storage IBM</name>
+                            </valuemap>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var stats = 3;
+
+if(value.includes('offline')){
+  stats = 0;
+}
+
+if(value.includes('online')){
+  stats = 1;
+}
+
+return stats;</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;&gt;1</expression>
+                                    <name>Disk {#VOLNAME} is {ITEM.LASTVALUE}</name>
+                                    <priority>DISASTER</priority>
+                                    <manual_close>YES</manual_close>
+                                    <tags>
+                                        <tag>
+                                            <tag>Prumo - Storage</tag>
+                                            <value>Physical Disk</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>IBM Storwize Discovery Enclosure</name>
+                    <key>storwize.discovery[{$STORWIZEADDR},enclosure]</key>
+                    <delay>1h</delay>
+                    <lifetime>0</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Enclosure {#VOLNAME}</name>
+                            <key>storwize.enclosure.stats[{#STORWIZEADDR},{#VOLNAME},status]</key>
+                            <delay>1h</delay>
+                            <applications>
+                                <application>
+                                    <name>Status Enclosure</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>Storage IBM</name>
+                            </valuemap>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var stats = 3;
+
+if(value.includes('offline')){
+  stats = 0;
+}
+
+if(value.includes('online')){
+  stats = 1;
+}
+
+return stats;</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;&gt;1</expression>
+                                    <name>Enclosure{#VOLNAME} is {ITEM.LASTVALUE}</name>
+                                    <priority>DISASTER</priority>
+                                    <description>### Documento referente aos cliente da LCS-Central de Serviços ###
+
+https://lcsonline.sharepoint.com/:x:/r/sites/MSS/_layouts/15/WopiFrame.aspx?sourcedoc=%7Bce3eaff7-889a-4a17-a72d-5e904191da09%7D&amp;action=default</description>
+                                    <manual_close>YES</manual_close>
+                                    <tags>
+                                        <tag>
+                                            <tag>Prumo storage</tag>
+                                            <value>Enclosure</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>IBM Storwize Discovery System</name>
+                    <key>storwize.discovery[{$STORWIZEADDR},system]</key>
+                    <delay>1h</delay>
+                    <lifetime>0</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Utilização da CPU</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},cpu_pc]</key>
+                            <delay>10m</delay>
+                            <history>180d</history>
+                            <units>%</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Velocidade atual da conexão fibra (IOps)</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},fc_io]</key>
+                            <delay>10m</delay>
+                            <history>180d</history>
+                            <units>IOps</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Velocidade atual da conexão fibra (MB)</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},fc_mb]</key>
+                            <delay>10m</delay>
+                            <history>180d</history>
+                            <units>MB</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Velocidade atual da conexão iSCSi (IOps)</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},iscsi_io]</key>
+                            <delay>10m</delay>
+                            <history>180d</history>
+                            <units>IOps</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Velocidade atual da conexão iSCSi (MB)</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},iscsi_mb]</key>
+                            <delay>10m</delay>
+                            <history>180d</history>
+                            <units>MB</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Latência de disco (mdisk)</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},mdisk_ms]</key>
+                            <delay>20m</delay>
+                            <history>180d</history>
+                            <units>ms</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Consumo elétrico</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},power_w]</key>
+                            <delay>15m</delay>
+                            <history>180d</history>
+                            <units>W</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>PSUs ativos</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},psu_online]</key>
+                            <delay>10m</delay>
+                            <history>180d</history>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{nodata(25m)}=1</expression>
+                                    <name>Sem receber dados da Storage</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Velocidade atual da conexão SAS (IOps)</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},sas_io]</key>
+                            <delay>10m</delay>
+                            <history>180d</history>
+                            <units>IOps</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Velocidade atual da conexão SAS (MB)</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},sas_mb]</key>
+                            <delay>10m</delay>
+                            <history>180d</history>
+                            <units>MB</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Espaço alocado</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},space_allocated_to_vdisks]</key>
+                            <delay>15m</delay>
+                            <history>180d</history>
+                            <value_type>FLOAT</value_type>
+                            <units>TB</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Temperatura</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},temp_c]</key>
+                            <delay>10m</delay>
+                            <history>180d</history>
+                            <units>C</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Total de cache</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},total_cache_pc]</key>
+                            <delay>15m</delay>
+                            <history>180d</history>
+                            <units>%</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Espaço disponível</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},total_free_space]</key>
+                            <delay>15m</delay>
+                            <history>180d</history>
+                            <value_type>FLOAT</value_type>
+                            <units>TB</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Espaço total</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},total_mdisk_capacity]</key>
+                            <delay>15m</delay>
+                            <history>180d</history>
+                            <value_type>FLOAT</value_type>
+                            <units>TB</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Latência de disco (vdisk)</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},vdisk_ms]</key>
+                            <delay>20m</delay>
+                            <history>180d</history>
+                            <units>ms</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Cache de escrita</name>
+                            <key>storwize.system.stats[{#STORWIZEADDR},write_cache_pc]</key>
+                            <delay>15m</delay>
+                            <history>180d</history>
+                            <units>%</units>
+                            <applications>
+                                <application>
+                                    <name>Geral</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>IBM Storwize Discovery Volume</name>
+                    <key>storwize.discovery[{$STORWIZEADDR},volume]</key>
+                    <delay>10m</delay>
+                    <lifetime>0</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>State LUN {#VOLNAME} $4</name>
+                            <key>storwize.volume.stats[{#STORWIZEADDR},{#VOLNAME},status]</key>
+                            <delay>12m</delay>
+                            <history>26w</history>
+                            <applications>
+                                <application>
+                                    <name>Status Lun</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>Storage IBM</name>
+                            </valuemap>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var stats = 3;
+
+if(value.includes('offline')){
+  stats = 0;
+}
+
+if(value.includes('online')){
+  stats = 1;
+}
+
+return stats;</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;&gt;1</expression>
+                                    <name>Volume {#VOLNAME} is {ITEM.LASTVALUE}</name>
+                                    <priority>DISASTER</priority>
+                                    <manual_close>YES</manual_close>
+                                    <tags>
+                                        <tag>
+                                            <tag>storage</tag>
+                                            <value>volume</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+    <value_maps>
+        <value_map>
+            <name>Storage IBM</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Offline</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Online</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>Failed</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>

@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.2</version>
+    <date>2023-02-06T14:11:09Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
+            <name>Templates</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>175c886030ed45e28e1dbf846ba6dd1e</uuid>
+            <template>Template Nobreak Engetron SNMP v1 Nexa</template>
+            <name>Template Nobreak Engetron SNMP v1 Nexa</name>
+            <templates>
+                <template>
+                    <name>Generic SNMP</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>52158b99ab3841c7b3808e95f0c64239</uuid>
+                    <name>Status Bateria</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.33.1.2.1.0</snmp_oid>
+                    <key>upsBatteryStatus</key>
+                    <delay>5m</delay>
+                    <valuemap>
+                        <name>UpsBatteryStatus</name>
+                    </valuemap>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Bateria</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>3339416ceab94daebd9dcc60a8142741</uuid>
+                            <expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsBatteryStatus)&lt;&gt;2</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsBatteryStatus)=2</recovery_expression>
+                            <name>Battery status {ITEM.VALUE}</name>
+                            <opdata>{ITEM.VALUE}</opdata>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>2987b29578704f08a776ccc7afef1b02</uuid>
+                    <name>Temperatura</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.2.7.0</snmp_oid>
+                    <key>upsBatteryTemperature</key>
+                    <delay>5m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>!°C</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Bateria</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>e9cb803b0272475baee7e19ce1878174</uuid>
+                            <expression>avg(/Template Nobreak Engetron SNMP v1 Nexa/upsBatteryTemperature,10m)&gt;={$UPS.TEMP.DISASTER}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>avg(/Template Nobreak Engetron SNMP v1 Nexa/upsBatteryTemperature,10m)&lt;={$UPS.TEMP.DISASTER}</recovery_expression>
+                            <name>Temperatura no nobreak está acima de {$UPS.TEMP.DISASTER}°C</name>
+                            <opdata>Valor atual: {ITEM.VALUE}</opdata>
+                            <priority>DISASTER</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                        <trigger>
+                            <uuid>7b6b5ed8f6f843d58d1e9376b269c56a</uuid>
+                            <expression>avg(/Template Nobreak Engetron SNMP v1 Nexa/upsBatteryTemperature,15m)&gt;={$UPS.TEMP.HIGH}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>avg(/Template Nobreak Engetron SNMP v1 Nexa/upsBatteryTemperature,10m)&lt;={$UPS.TEMP.HIGH}</recovery_expression>
+                            <name>Temperatura no nobreak está acima de {$UPS.TEMP.HIGH}°C</name>
+                            <opdata>Valor atual: {ITEM.VALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Temperatura no nobreak está acima de {$UPS.TEMP.DISASTER}°C</name>
+                                    <expression>avg(/Template Nobreak Engetron SNMP v1 Nexa/upsBatteryTemperature,10m)&gt;={$UPS.TEMP.DISASTER}</expression>
+                                    <recovery_expression>avg(/Template Nobreak Engetron SNMP v1 Nexa/upsBatteryTemperature,10m)&lt;={$UPS.TEMP.DISASTER}</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>d3d2c3b8ef9f4ceba1e75a8e7044096e</uuid>
+                    <name>Tensão Bateria</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.2.5.0</snmp_oid>
+                    <key>upsBatteryVoltage</key>
+                    <delay>5m</delay>
+                    <units>!V</units>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.1</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Bateria</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>e101b5ae09644230bb3347aa951dd61d</uuid>
+                    <name>Carga Restante</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.33.1.2.4.0</snmp_oid>
+                    <key>upsEstimatedChargeRemaining</key>
+                    <delay>3m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Bateria</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>23afeddb04b544d4a91c91901231f3c3</uuid>
+                            <expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&lt;50</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&gt;50</recovery_expression>
+                            <name>Carga da Bateria está abaixo de {ITEM.VALUE}</name>
+                            <opdata>Valor atual: {ITEM.VALUE}</opdata>
+                            <priority>DISASTER</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                        <trigger>
+                            <uuid>c4880d3063e24ef59e410f294a3eadd1</uuid>
+                            <expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&lt;80</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&gt;80</recovery_expression>
+                            <name>Carga da Bateria está abaixo de {ITEM.VALUE}</name>
+                            <opdata>Valor atual: {ITEM.VALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Carga da Bateria está abaixo de {ITEM.VALUE}</name>
+                                    <expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&lt;50</expression>
+                                    <recovery_expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&gt;50</recovery_expression>
+                                </dependency>
+                                <dependency>
+                                    <name>Carga da Bateria está abaixo de {ITEM.VALUE}</name>
+                                    <expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&lt;90</expression>
+                                    <recovery_expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&gt;90</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                        <trigger>
+                            <uuid>0072f854b5a945f9ac4a7588d8696ec8</uuid>
+                            <expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&lt;90</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&gt;90</recovery_expression>
+                            <name>Carga da Bateria está abaixo de {ITEM.VALUE}</name>
+                            <opdata>Valor atual: {ITEM.VALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Carga da Bateria está abaixo de {ITEM.VALUE}</name>
+                                    <expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&lt;50</expression>
+                                    <recovery_expression>last(/Template Nobreak Engetron SNMP v1 Nexa/upsEstimatedChargeRemaining)&gt;50</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>05110b84622a43f48e66a6a822ce095c</uuid>
+                    <name>Autonomia</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.2.3.0</snmp_oid>
+                    <key>upsEstimatedMinutesRemaining</key>
+                    <delay>5m</delay>
+                    <units>!minutes</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Bateria</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>c069a8ef760640cfaa4d6abf261745b4</uuid>
+                    <name>Fabricante</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.1.1.0</snmp_oid>
+                    <key>upsIdentManufacturer</key>
+                    <delay>7200</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Dispositivo</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>738df90008d64672914c3edb75b2c091</uuid>
+                    <name>Modelo</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.1.2.0</snmp_oid>
+                    <key>upsIdentModel</key>
+                    <delay>7200</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Dispositivo</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>bf59a5901faf490c8889f80c49d16987</uuid>
+                    <name>Corrente Entrada Fase 1</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.4.1</snmp_oid>
+                    <key>upsInputCurrent1</key>
+                    <delay>5m</delay>
+                    <units>!RMS Amp</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>aafff7c411da4a9abcef138c0373359b</uuid>
+                    <name>Corrente Entrada Fase 2</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.4.2</snmp_oid>
+                    <key>upsInputCurrent2</key>
+                    <delay>5m</delay>
+                    <units>!RMS Amp</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>9d206e7d09794be6a616f522a91c8b36</uuid>
+                    <name>Corrente Entrada Fase 3</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.4.3</snmp_oid>
+                    <key>upsInputCurrent3</key>
+                    <delay>5m</delay>
+                    <units>!RMS Amp</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>f15f2837dcfc4dc0b383f3947f5920fb</uuid>
+                    <name>Fase1</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.1.1</snmp_oid>
+                    <key>upsInputLineIndex1</key>
+                    <delay>5m</delay>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>de700c10246e47f9844f37833e8db12a</uuid>
+                    <name>Fase2</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.1.2</snmp_oid>
+                    <key>upsInputLineIndex2</key>
+                    <delay>5m</delay>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>20166e0df37443c586164712df4a8aed</uuid>
+                    <name>Fase3</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.1.3</snmp_oid>
+                    <key>upsInputLineIndex3</key>
+                    <delay>5m</delay>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>fc1c46a3525d44ea8c54280593fab1d0</uuid>
+                    <name>Potência Entrada Fase 1</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.5.1</snmp_oid>
+                    <key>upsInputTruePower1</key>
+                    <delay>5m</delay>
+                    <units>!Watts</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>b05c417ef77440d0a94cfd76f45b037a</uuid>
+                    <name>Potência Entrada Fase 2</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.5.2</snmp_oid>
+                    <key>upsInputTruePower2</key>
+                    <delay>5m</delay>
+                    <units>!Watts</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>d6a8731d221f4dc6b63a58d4eaf0930a</uuid>
+                    <name>Potência Entrada Fase 3</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.5.3</snmp_oid>
+                    <key>upsInputTruePower3</key>
+                    <delay>5m</delay>
+                    <units>!Watts</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>8aaf8def33b74caa9a86ee32799d44a7</uuid>
+                    <name>Tensão Entrada Fase 1</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.3.1</snmp_oid>
+                    <key>upsInputVoltage1</key>
+                    <delay>5m</delay>
+                    <units>!V</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>adb9b4b1f77e4c628737f20aa6e89116</uuid>
+                            <expression>max(/Template Nobreak Engetron SNMP v1 Nexa/upsInputVoltage1,#2)&lt;{$TENSAO_ENTRADA}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>max(/Template Nobreak Engetron SNMP v1 Nexa/upsInputVoltage1,#2)&gt;{$TENSAO_ENTRADA}</recovery_expression>
+                            <name>Tensão de Entrada Fase 1 caiu para {ITEM.VALUE}</name>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <tags>
+                                <tag>
+                                    <tag>Delta</tag>
+                                    <value>Nobreak.Tensao</value>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>3191d2a6c3f0432590b4daaedacb3539</uuid>
+                    <name>Tensão Entrada Fase 2</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.3.2</snmp_oid>
+                    <key>upsInputVoltage2</key>
+                    <delay>5m</delay>
+                    <units>!V</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>dd4329e2efe34adba637bc3fe2f53840</uuid>
+                            <expression>max(/Template Nobreak Engetron SNMP v1 Nexa/upsInputVoltage2,#2)&lt;{$TENSAO_ENTRADA}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>max(/Template Nobreak Engetron SNMP v1 Nexa/upsInputVoltage2,#2)&gt;{$TENSAO_ENTRADA}</recovery_expression>
+                            <name>Tensão de Entrada Fase 2 caiu para {ITEM.VALUE}</name>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <tags>
+                                <tag>
+                                    <tag>Delta</tag>
+                                    <value>Nobreak.Tensao</value>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>5d3190d9b7d840feaa395830426e7214</uuid>
+                    <name>Tensão Entrada Fase 3</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.3.3</snmp_oid>
+                    <key>upsInputVoltage3</key>
+                    <delay>5m</delay>
+                    <units>!V</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Entrada</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>25c1973e746e4e7a81bb72f33f3961a2</uuid>
+                            <expression>max(/Template Nobreak Engetron SNMP v1 Nexa/upsInputVoltage3,#2)&lt;{$TENSAO_ENTRADA}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>max(/Template Nobreak Engetron SNMP v1 Nexa/upsInputVoltage3,#2)&gt;{$TENSAO_ENTRADA}</recovery_expression>
+                            <name>Tensão de Entrada Fase 3 caiu para {ITEM.VALUE}</name>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <tags>
+                                <tag>
+                                    <tag>Delta</tag>
+                                    <value>Nobreak.Tensao</value>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>ea61a981a4e446498db3b181e413168a</uuid>
+                    <name>Corrente Saída Fase 1</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.3.1</snmp_oid>
+                    <key>upsOutputCurrent1</key>
+                    <delay>5m</delay>
+                    <units>!RMS Amp</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>d0da8f546b5d4549aa7d08a6fda73957</uuid>
+                    <name>Corrente Saída Fase 2</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.3.2</snmp_oid>
+                    <key>upsOutputCurrent2</key>
+                    <delay>5m</delay>
+                    <units>!RMS Amp</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>49f820461a3e4db38cefc3ecba6588cc</uuid>
+                    <name>Corrente Saída Fase 3</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.3.3</snmp_oid>
+                    <key>upsOutputCurrent3</key>
+                    <delay>5m</delay>
+                    <units>!RMS Amp</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>41bbe28abcd34735877011e0b4ea3462</uuid>
+                    <name>Carga Utilizada Fase 1</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.5.1</snmp_oid>
+                    <key>upsOutputPercentLoad1</key>
+                    <delay>5m</delay>
+                    <units>%</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>3771e50d01c1449da34a15c6078bbc74</uuid>
+                    <name>Carga Utilizada Fase 2</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.5.2</snmp_oid>
+                    <key>upsOutputPercentLoad2</key>
+                    <delay>5m</delay>
+                    <units>%</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>febf72f726924841a3697a94fa99debc</uuid>
+                    <name>Carga Utilizada Fase 3</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.5.3</snmp_oid>
+                    <key>upsOutputPercentLoad3</key>
+                    <delay>5m</delay>
+                    <units>%</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>01608d2b913a4f98a55df85ec503c201</uuid>
+                    <name>Potência Saída Fase 1</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.4.1</snmp_oid>
+                    <key>upsOutputPower1</key>
+                    <delay>5m</delay>
+                    <units>!Watts</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>db9f024fb36f4622a8e1c8a274093ab2</uuid>
+                    <name>Potência Saída Fase 2</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.4.2</snmp_oid>
+                    <key>upsOutputPower2</key>
+                    <delay>5m</delay>
+                    <units>!Watts</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>7ce3c76294f6490093d04b06e40cbad5</uuid>
+                    <name>Potência Saída Fase 3</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.4.3</snmp_oid>
+                    <key>upsOutputPower3</key>
+                    <delay>5m</delay>
+                    <units>!Watts</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>8637a4cf959a4f90b66bbcf52bec8693</uuid>
+                    <name>Fonte De Saída</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.33.1.4.1.0</snmp_oid>
+                    <key>upsOutputSource</key>
+                    <delay>5m</delay>
+                    <valuemap>
+                        <name>upsOutputSource</name>
+                    </valuemap>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Bateria</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>b987340db95f4ab190acee27245d52e6</uuid>
+                    <name>Tensão Saída Fase 1</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.2.1</snmp_oid>
+                    <key>upsOutputVoltage1</key>
+                    <delay>5m</delay>
+                    <units>!V</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>5b721378178f43b6ab00aa212461de31</uuid>
+                    <name>Tensão Saída Fase 2</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.2.2</snmp_oid>
+                    <key>upsOutputVoltage2</key>
+                    <delay>5m</delay>
+                    <units>!V</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>27f3a4fb674a4deebb18ee0fe8c23e68</uuid>
+                    <name>Tensão Saída Fase 3</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.2.3</snmp_oid>
+                    <key>upsOutputVoltage3</key>
+                    <delay>5m</delay>
+                    <units>!V</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Linha Saída</value>
+                        </tag>
+                    </tags>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$SNMP_COMMUNITY}</macro>
+                    <value>deltanetwork</value>
+                </macro>
+                <macro>
+                    <macro>{$TENSAO_ENTRADA}</macro>
+                    <value>190</value>
+                </macro>
+                <macro>
+                    <macro>{$UPS.TEMP.DISASTER}</macro>
+                    <value>43</value>
+                </macro>
+                <macro>
+                    <macro>{$UPS.TEMP.HIGH}</macro>
+                    <value>35</value>
+                </macro>
+            </macros>
+            <valuemaps>
+                <valuemap>
+                    <uuid>60b64f22c6b84b96b6dcb8258a9e198d</uuid>
+                    <name>UpsBatteryStatus</name>
+                    <mappings>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>unknown</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>2</value>
+                            <newvalue>batteryNormal</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>3</value>
+                            <newvalue>batteryLow</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>4</value>
+                            <newvalue>batteryDepleted</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+                <valuemap>
+                    <uuid>8637a4cf959a4f90b66bbcf52bec8693</uuid>
+                    <name>upsOutputSource</name>
+                    <mappings>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>other</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>2</value>
+                            <newvalue>none</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>3</value>
+                            <newvalue>normal</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>4</value>
+                            <newvalue>bypass</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>5</value>
+                            <newvalue>battery</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>6</value>
+                            <newvalue>booster</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>7</value>
+                            <newvalue>reducer</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+    </templates>
+</zabbix_export>

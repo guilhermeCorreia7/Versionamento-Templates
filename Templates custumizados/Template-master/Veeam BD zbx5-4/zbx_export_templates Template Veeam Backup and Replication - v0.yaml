@@ -1,0 +1,36 @@
+zabbix_export:
+  version: '5.4'
+  date: '2022-07-25T13:33:52Z'
+  groups:
+    -
+      uuid: 548049af8afd476e8484e5195778613f
+      name: Template/Customizado
+  templates:
+    -
+      uuid: a1940f7e8b7b446f938cd17a6a5e4bc4
+      template: 'Template Veeam Backup and Replication - v0'
+      name: 'Template Veeam Backup and Replication - v0'
+      groups:
+        -
+          name: Template/Customizado
+      items:
+        -
+          uuid: 3f7215d6fc944fcc8b1d1dbcaf07741d
+          name: 'Raw - Get-VBRJob'
+          key: 'system.run[powershell.exe -ExecutionPolicy Bypass "Get-VBRJob | Select Info | ConvertTo-Json"]'
+          delay: 5m
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: TRIM
+              parameters:
+                - 'AVISO: This cmdlet is no longer supported for computer backup jobs. Use \"Get-VBRComputerBackupJob\" instead.'
+            -
+              type: TRIM
+              parameters:
+                - '\"Get-VBRComputerBackupJob\"'
+          tags:
+            -
+              tag: Application
+              value: 'Raw Veeam'

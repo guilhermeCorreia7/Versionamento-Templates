@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.2</version>
+    <date>2023-02-06T14:14:41Z</date>
+    <groups>
+        <group>
+            <name>Template/Prumo</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template Geradores  Modulo Combustivel SNMP v1</template>
+            <name>Template Geradores  Modulo Combustivel SNMP v1</name>
+            <description>Template Desenvolvido por André Bello</description>
+            <templates>
+                <template>
+                    <name>Template Agent SNMP</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>Template/Prumo</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Gerador Combustivel</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>TANQUE G1</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.38783.1.3.2.1.0</snmp_oid>
+                    <key>voltage1Int.0</key>
+                    <delay>2m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <applications>
+                        <application>
+                            <name>Gerador Combustivel</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.1</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&lt;{$AVERAGE.COMB}</expression>
+                            <name>Gerador 01: Nível de combustivel abaixo de {$AVERAGE.COMB}%</name>
+                            <priority>AVERAGE</priority>
+                            <dependencies>
+                                <dependency>
+                                    <name>Gerador 01: Nível de combustivel abaixo de {$DISASTER.COMB}%</name>
+                                    <expression>{Template Geradores  Modulo Combustivel SNMP v1:voltage1Int.0.last()}&lt;{$DISASTER.COMB}</expression>
+                                </dependency>
+                                <dependency>
+                                    <name>Gerador 01: Nível de combustivel abaixo de {$HIGH.COMB}%</name>
+                                    <expression>{Template Geradores  Modulo Combustivel SNMP v1:voltage1Int.0.last()}&lt;{$HIGH.COMB}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                        <trigger>
+                            <expression>{last()}&lt;{$DISASTER.COMB}</expression>
+                            <name>Gerador 01: Nível de combustivel abaixo de {$DISASTER.COMB}%</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{last()}&lt;{$HIGH.COMB}</expression>
+                            <name>Gerador 01: Nível de combustivel abaixo de {$HIGH.COMB}%</name>
+                            <priority>HIGH</priority>
+                            <dependencies>
+                                <dependency>
+                                    <name>Gerador 01: Nível de combustivel abaixo de {$DISASTER.COMB}%</name>
+                                    <expression>{Template Geradores  Modulo Combustivel SNMP v1:voltage1Int.0.last()}&lt;{$DISASTER.COMB}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>TANQUE G2</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.38783.1.3.2.6.0</snmp_oid>
+                    <key>voltage2Int.0</key>
+                    <delay>2m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <applications>
+                        <application>
+                            <name>Gerador Combustivel</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.01</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&lt;{$AVERAGE.COMB}</expression>
+                            <name>Gerador 02 Nível de combustivel abaixo de {$AVERAGE.COMB}%</name>
+                            <priority>AVERAGE</priority>
+                            <dependencies>
+                                <dependency>
+                                    <name>Gerador 02: Nível de combustivel abaixo de {$DISASTER.COMB}%</name>
+                                    <expression>{Template Geradores  Modulo Combustivel SNMP v1:voltage2Int.0.last()}&lt;{$DISASTER.COMB}</expression>
+                                </dependency>
+                                <dependency>
+                                    <name>Gerador 02: Nível de combustivel abaixo de {$HIGH.COMB}%</name>
+                                    <expression>{Template Geradores  Modulo Combustivel SNMP v1:voltage2Int.0.last()}&lt;{$HIGH.COMB}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                        <trigger>
+                            <expression>{last()}&lt;{$DISASTER.COMB}</expression>
+                            <name>Gerador 02: Nível de combustivel abaixo de {$DISASTER.COMB}%</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{last()}&lt;{$HIGH.COMB}</expression>
+                            <name>Gerador 02: Nível de combustivel abaixo de {$HIGH.COMB}%</name>
+                            <priority>HIGH</priority>
+                            <dependencies>
+                                <dependency>
+                                    <name>Gerador 02: Nível de combustivel abaixo de {$DISASTER.COMB}%</name>
+                                    <expression>{Template Geradores  Modulo Combustivel SNMP v1:voltage2Int.0.last()}&lt;{$DISASTER.COMB}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Analog Input 3</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.38783.3.3.2.3.0</snmp_oid>
+                    <key>voltage3Int.0</key>
+                    <delay>2m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>Volts</units>
+                    <applications>
+                        <application>
+                            <name>Gerador Combustivel</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>1</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>Analog Input 4</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.38783.3.3.2.4.0</snmp_oid>
+                    <key>voltage4Int.0</key>
+                    <delay>2m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>Volts</units>
+                    <applications>
+                        <application>
+                            <name>Gerador Combustivel</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>1</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$AVERAGE.COMB}</macro>
+                    <value>80</value>
+                </macro>
+                <macro>
+                    <macro>{$DISASTER.COMB}</macro>
+                    <value>20</value>
+                </macro>
+                <macro>
+                    <macro>{$HIGH.COMB}</macro>
+                    <value>60</value>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>

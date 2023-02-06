@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.2</version>
+    <date>2023-02-06T13:57:22Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>8bfe84a3c099427b86f6bee55ae3fd10</uuid>
+            <name>Template/Bello</name>
+        </template_group>
+        <template_group>
+            <uuid>548049af8afd476e8484e5195778613f</uuid>
+            <name>Template/Customizado</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>f3a0760f11544cdf8b82ccacfd95de3b</uuid>
+            <template>Template Windows Server Passive - Nexa</template>
+            <name>Template Windows Server Passive - Nexa</name>
+            <description>Template para monitoramento de Windows Server.</description>
+            <templates>
+                <template>
+                    <name>Template FileSystem Windows Zabbix Agent Passive v2</name>
+                </template>
+                <template>
+                    <name>Template Module Windows network by Zabbix agent passive</name>
+                </template>
+                <template>
+                    <name>Template Windows services by Zabbix agent v2</name>
+                </template>
+                <template>
+                    <name>Template Zabbix Agent - Nexa</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>Template/Bello</name>
+                </group>
+                <group>
+                    <name>Template/Customizado</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>498cdfb5d8ef4944922e13f14fef66a2</uuid>
+                    <name>ICMP ping</name>
+                    <type>SIMPLE</type>
+                    <key>icmpping</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <valuemap>
+                        <name>Zabbix agent ping status</name>
+                    </valuemap>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Status</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>df6a1f39e0f846af9e0d60af1b2e0b41</uuid>
+                            <expression>max(/Template Windows Server Passive - Nexa/icmpping,#3)=0</expression>
+                            <name>Unavailable by ICMP ping</name>
+                            <priority>HIGH</priority>
+                            <description>Last three attempts returned timeout.  Please check device connectivity.</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>54a7910a73944e3da9e9585ac25f3820</uuid>
+                    <name>ICMP loss</name>
+                    <type>SIMPLE</type>
+                    <key>icmppingloss</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Status</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>735e8f99bba940a4ba9f77920aee670e</uuid>
+                            <expression>min(/Template Windows Server Passive - Nexa/icmppingloss,5m)&gt;{$ICMP_LOSS_WARN} and min(/Template Windows Server Passive - Nexa/icmppingloss,5m)&lt;100</expression>
+                            <name>High ICMP ping loss</name>
+                            <opdata>Loss: {ITEM.LASTVALUE1}</opdata>
+                            <priority>WARNING</priority>
+                            <dependencies>
+                                <dependency>
+                                    <name>Unavailable by ICMP ping</name>
+                                    <expression>max(/Template Windows Server Passive - Nexa/icmpping,#3)=0</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>9f52af71efc84f17ac55664d7d62c3b1</uuid>
+                    <name>ICMP response time</name>
+                    <type>SIMPLE</type>
+                    <key>icmppingsec</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <value_type>FLOAT</value_type>
+                    <units>s</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Status</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>b0e1d6e78b3f40d3a2fa354293923375</uuid>
+                            <expression>avg(/Template Windows Server Passive - Nexa/icmppingsec,5m)&gt;{$ICMP_RESPONSE_TIME_WARN}</expression>
+                            <name>High ICMP ping response time</name>
+                            <opdata>Value: {ITEM.LASTVALUE1}</opdata>
+                            <priority>WARNING</priority>
+                            <dependencies>
+                                <dependency>
+                                    <name>High ICMP ping loss</name>
+                                    <expression>min(/Template Windows Server Passive - Nexa/icmppingloss,5m)&gt;{$ICMP_LOSS_WARN} and min(/Template Windows Server Passive - Nexa/icmppingloss,5m)&lt;100</expression>
+                                </dependency>
+                                <dependency>
+                                    <name>Unavailable by ICMP ping</name>
+                                    <expression>max(/Template Windows Server Passive - Nexa/icmpping,#3)=0</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>c6889d3c4ae0413d825d05808fedf1e0</uuid>
+                    <name>File read bytes per second</name>
+                    <key>perf_counter[\2\16]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <units>Bps</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>e7176eb2371f428aacd2997c79b0e00f</uuid>
+                    <name>File write bytes per second</name>
+                    <key>perf_counter[\2\18]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <units>Bps</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>b0ea8cf23e594741ae17524143ffd54b</uuid>
+                    <name>Number of threads</name>
+                    <key>perf_counter[\2\250]</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>56802e6514ef413e99201538f8fded30</uuid>
+                    <name>Average disk read queue length</name>
+                    <key>perf_counter[\234(_Total)\1402]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Filesystems</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>a4b905e833ac4a31bb5d9be487fea23a</uuid>
+                    <name>Average disk write queue length</name>
+                    <key>perf_counter[\234(_Total)\1404]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>8188ebf20cc64288b359c2121f2184f9</uuid>
+                    <name>CPU DPC time</name>
+                    <key>perf_counter_en[&quot;\Processor Information(_total)\% DPC Time&quot;]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>Processor DPC time is the time that a single processor spent receiving and servicing deferred procedure 
+calls (DPCs). DPCs are interrupts that run at a lower priority than standard interrupts. % DPC Time is a 
+component of % Privileged Time because DPCs are executed in privileged mode. If a high % DPC Time is 
+sustained, there may be a processor bottleneck or an application or hardware related issue that can 
+significantly diminish overall system performance.</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>72349d75f4fc4aa695b2f316a01a817a</uuid>
+                    <name>CPU interrupt time</name>
+                    <key>perf_counter_en[&quot;\Processor Information(_total)\% Interrupt Time&quot;]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>The Processor Information\% Interrupt Time is the time the processor spends receiving and servicing 
+hardware interrupts during sample intervals. This value is an indirect indicator of the activity of 
+devices that generate interrupts, such as the system clock, the mouse, disk drivers, data communication 
+lines, network interface cards and other peripheral devices. This is an easy way to identify a potential 
+hardware failure. This should never be higher than 20%.</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>576767e29284411f94429d137b9848c5</uuid>
+                    <name>CPU privileged time</name>
+                    <key>perf_counter_en[&quot;\Processor Information(_total)\% Privileged Time&quot;]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>The Processor Information\% Privileged Time counter shows the percent of time that the processor is spent 
+executing in Kernel (or Privileged) mode. Privileged mode includes services interrupts inside Interrupt 
+Service Routines (ISRs), executing Deferred Procedure Calls (DPCs), Device Driver calls and other kernel-mode 
+functions of the WindowsÂ® Operating System.</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>e39ea006621745ef85b63451e0c5be58</uuid>
+                    <name>CPU user time</name>
+                    <key>perf_counter_en[&quot;\Processor Information(_total)\% User Time&quot;]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>The Processor Information\% User Time counter shows the percent of time that the processor(s) is spent executing 
+in User mode.</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>7a6b87c617e643709cf25060da22a7f0</uuid>
+                    <name>Context switches per second</name>
+                    <key>perf_counter_en[&quot;\System\Context Switches/sec&quot;]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <description>Context Switches/sec is the combined rate at which all processors on the computer are switched from one thread to another.
+Context switches occur when a running thread voluntarily relinquishes the processor, is preempted by a higher priority ready thread, or switches between user-mode and privileged (kernel) mode to use an Executive or subsystem service.
+It is the sum of Thread\\Context Switches/sec for all threads running on all processors in the computer and is measured in numbers of switches.
+There are context switch counters on the System and Thread objects. This counter displays the difference between the values observed in the last two samples, divided by the duration of the sample interval.</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>793ddeaf7f8a430299ff7abd5dbd6fba</uuid>
+                    <name>CPU queue length</name>
+                    <key>perf_counter_en[&quot;\System\Processor Queue Length&quot;]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <description>The Processor Queue Length shows the number of threads that are observed as delayed in the processor Ready Queue 
+and are waiting to be executed.</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>7e242d7eb7e1417684c3ab2cb8ea6046</uuid>
+                    <name>Number of processes</name>
+                    <key>proc.num[]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Processes</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>9a96b38e8831471d98c303f6415b2cec</uuid>
+                            <expression>avg(/Template Windows Server Passive - Nexa/proc.num[],10m)&gt;300</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>avg(/Template Windows Server Passive - Nexa/proc.num[],10m)&lt;300</recovery_expression>
+                            <name>Muitos processos executando no {HOST.NAME}</name>
+                            <status>DISABLED</status>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>520b8d37b73546e799297b98302c1cf7</uuid>
+                    <name>Utilização de CPU %</name>
+                    <key>system.cpu.util[]</key>
+                    <delay>5m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>b7aaa9b0cc47442b8fc4edee8fc019c8</uuid>
+                            <expression>avg(/Template Windows Server Passive - Nexa/system.cpu.util[],{$CPU_THRESHOLD_TIME})&gt;={$CPU_THRESHOLD_AVERAGE}</expression>
+                            <name>Média de utilização de CPU superior a {$CPU_THRESHOLD_AVERAGE} % em {$CPU_THRESHOLD_TIME}</name>
+                            <priority>AVERAGE</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Média de utilização de CPU superior a {$CPU_THRESHOLD_HIGH} % em {$CPU_THRESHOLD_TIME}</name>
+                                    <expression>avg(/Template Windows Server Passive - Nexa/system.cpu.util[],{$CPU_THRESHOLD_TIME})&gt;={$CPU_THRESHOLD_HIGH}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                        <trigger>
+                            <uuid>761bff8dd1f24adabe723354013a691e</uuid>
+                            <expression>avg(/Template Windows Server Passive - Nexa/system.cpu.util[],{$CPU_THRESHOLD_TIME})&gt;={$CPU_THRESHOLD_HIGH}</expression>
+                            <name>Média de utilização de CPU superior a {$CPU_THRESHOLD_HIGH} % em {$CPU_THRESHOLD_TIME}</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>614ebf28740b42cba2d366bd2319e214</uuid>
+                    <name>Free swap space</name>
+                    <key>system.swap.size[,free]</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <units>B</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>4612438fbec84fc78cdcb4598678e95b</uuid>
+                    <name>Total swap space</name>
+                    <key>system.swap.size[,total]</key>
+                    <delay>1h</delay>
+                    <history>1w</history>
+                    <units>B</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>d5457ebb712049189b6b98517602ea46</uuid>
+                    <name>Informação do Sistema</name>
+                    <key>system.uname</key>
+                    <delay>1d</delay>
+                    <history>1w</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <inventory_link>OS</inventory_link>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>3b8b1470013442529865443057829053</uuid>
+                    <name>Uptime do Sistema</name>
+                    <key>system.uptime</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <units>uptime</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>e5f649043d4047539b44f4c318388c74</uuid>
+                            <expression>change(/Template Windows Server Passive - Nexa/system.uptime)&lt;0</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>change(/Template Windows Server Passive - Nexa/system.uptime)&gt;30</recovery_expression>
+                            <name>Servidor acabou de ser reiniciado</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>d036843ae9fd49c79f7d3e3488127d05</uuid>
+                    <name>Free memory</name>
+                    <key>vm.memory.size[free]</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <units>B</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>d94234d0eaa3423980ccc19d979ce734</uuid>
+                            <expression>last(/Template Windows Server Passive - Nexa/vm.memory.size[free])&lt;10000</expression>
+                            <name>Falta de memória livre no servidor {HOST.NAME}</name>
+                            <status>DISABLED</status>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>fa9581f3d84c4cf4a6e89f4048b8fa21</uuid>
+                    <name>Utilização de Memória %</name>
+                    <key>vm.memory.size[pused]</key>
+                    <delay>3m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>aa80b1448e694d758a079278aee6dc37</uuid>
+                            <expression>avg(/Template Windows Server Passive - Nexa/vm.memory.size[pused],{$MEMORY_THRESHOLD_TIME})&gt;={$MEMORY_THRESHOLD_AVERAGE}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>avg(/Template Windows Server Passive - Nexa/vm.memory.size[pused],{$MEMORY_THRESHOLD_TIME})&lt;={$MEMORY_THRESHOLD_AVERAGE}</recovery_expression>
+                            <name>Média de utilização de memória superior a {$MEMORY_THRESHOLD_AVERAGE} % em {$MEMORY_THRESHOLD_TIME}</name>
+                            <status>DISABLED</status>
+                            <priority>AVERAGE</priority>
+                            <dependencies>
+                                <dependency>
+                                    <name>Média de utilização de memória superior a {$MEMORY_THRESHOLD_HIGH} % em {$MEMORY_THRESHOLD_TIME}</name>
+                                    <expression>avg(/Template Windows Server Passive - Nexa/vm.memory.size[pused],{$MEMORY_THRESHOLD_TIME})&gt;{$MEMORY_THRESHOLD_HIGH}</expression>
+                                    <recovery_expression>avg(/Template Windows Server Passive - Nexa/vm.memory.size[pused],{$MEMORY_THRESHOLD_TIME})&lt;{$MEMORY_THRESHOLD_HIGH}</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                        <trigger>
+                            <uuid>545ce2323972422fb9b474b948ced0a5</uuid>
+                            <expression>avg(/Template Windows Server Passive - Nexa/vm.memory.size[pused],{$MEMORY_THRESHOLD_TIME})&gt;{$MEMORY_THRESHOLD_HIGH}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>avg(/Template Windows Server Passive - Nexa/vm.memory.size[pused],{$MEMORY_THRESHOLD_TIME})&lt;{$MEMORY_THRESHOLD_HIGH}</recovery_expression>
+                            <name>Média de utilização de memória superior a {$MEMORY_THRESHOLD_HIGH} % em {$MEMORY_THRESHOLD_TIME}</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>154336e506da43e09ae7693795784f7b</uuid>
+                    <name>Total memory</name>
+                    <key>vm.memory.size[total]</key>
+                    <delay>1h</delay>
+                    <history>1w</history>
+                    <units>B</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>b218034efacf4686947a1d6d29b3109e</uuid>
+                    <name>Free virtual memory, in %</name>
+                    <key>vm.vmemory.size[pavailable]</key>
+                    <delay>3m</delay>
+                    <history>1w</history>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>f9ded9a4c48244cb9c79eec7fcc98129</uuid>
+                    <name>Number of cores</name>
+                    <key>wmi.get[root/cimv2,&quot;Select NumberOfLogicalProcessors from Win32_ComputerSystem&quot;]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <description>The number of logical processors available on the computer.</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>cba5469e4069400bb055d650714bb6ce</uuid>
+                    <name>CPU Discovery</name>
+                    <key>system.cpu.discovery</key>
+                    <delay>1h</delay>
+                    <lifetime>0d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>333de25959c946c4989bc4b73932683a</uuid>
+                            <name>Processor (1 min average) on CPU {#CPU.NUMBER}</name>
+                            <key>system.cpu.util[{#CPU.NUMBER}]</key>
+                            <delay>5m</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>%</units>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>CPU</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$CPU_THRESHOLD_AVERAGE}</macro>
+                    <value>95</value>
+                </macro>
+                <macro>
+                    <macro>{$CPU_THRESHOLD_HIGH}</macro>
+                    <value>97</value>
+                </macro>
+                <macro>
+                    <macro>{$CPU_THRESHOLD_TIME}</macro>
+                    <value>10m</value>
+                </macro>
+                <macro>
+                    <macro>{$FS.BYTE.AVERAGE}</macro>
+                    <value>21474836480</value>
+                </macro>
+                <macro>
+                    <macro>{$FS.BYTE.DISASTER}</macro>
+                    <value>5368709120</value>
+                </macro>
+                <macro>
+                    <macro>{$FS.BYTE.HIGH}</macro>
+                    <value>10737418240</value>
+                </macro>
+                <macro>
+                    <macro>{$FS.GB.AVERAGE}</macro>
+                    <value>20</value>
+                </macro>
+                <macro>
+                    <macro>{$FS.GB.DISASTER}</macro>
+                    <value>5</value>
+                </macro>
+                <macro>
+                    <macro>{$FS.GB.HIGH}</macro>
+                    <value>10</value>
+                </macro>
+                <macro>
+                    <macro>{$FS_AVERAGE_0}</macro>
+                    <value>20</value>
+                </macro>
+                <macro>
+                    <macro>{$FS_DISASTER_0}</macro>
+                    <value>5</value>
+                </macro>
+                <macro>
+                    <macro>{$FS_HIGH_0}</macro>
+                    <value>10</value>
+                </macro>
+                <macro>
+                    <macro>{$MEMORY_THRESHOLD_AVERAGE}</macro>
+                    <value>96</value>
+                </macro>
+                <macro>
+                    <macro>{$MEMORY_THRESHOLD_HIGH}</macro>
+                    <value>98</value>
+                </macro>
+                <macro>
+                    <macro>{$MEMORY_THRESHOLD_TIME}</macro>
+                    <value>10m</value>
+                </macro>
+                <macro>
+                    <macro>{$PORCENTAGEM}</macro>
+                    <value>5</value>
+                </macro>
+                <macro>
+                    <macro>{$TIME}</macro>
+                    <value>4h</value>
+                </macro>
+            </macros>
+            <dashboards>
+                <dashboard>
+                    <uuid>e9153f16f015419881918f6a01e08e74</uuid>
+                    <name>Netowrk interfaces</name>
+                    <pages>
+                        <page>
+                            <widgets>
+                                <widget>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <width>24</width>
+                                    <height>5</height>
+                                    <fields>
+                                        <field>
+                                            <type>INTEGER</type>
+                                            <name>columns</name>
+                                            <value>1</value>
+                                        </field>
+                                    </fields>
+                                </widget>
+                            </widgets>
+                        </page>
+                    </pages>
+                </dashboard>
+            </dashboards>
+            <valuemaps>
+                <valuemap>
+                    <uuid>d64ffd865f14457a90dc79058d3609ba</uuid>
+                    <name>ICMP ping status</name>
+                    <mappings>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>Up</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>0</value>
+                            <newvalue>Down</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+                <valuemap>
+                    <uuid>5d58de54d7fe4557b8b6feb5aef61793</uuid>
+                    <name>Zabbix agent ping status</name>
+                    <mappings>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>Up</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>0</value>
+                            <newvalue>Down</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+    </templates>
+    <graphs>
+        <graph>
+            <uuid>25774659a0f04284b565b84677863c3b</uuid>
+            <name>Memória Disponível</name>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <ymax_type_1>ITEM</ymax_type_1>
+            <ymax_item_1>
+                <host>Template Windows Server Passive - Nexa</host>
+                <key>vm.memory.size[total]</key>
+            </ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>00C800</color>
+                    <item>
+                        <host>Template Windows Server Passive - Nexa</host>
+                        <key>vm.memory.size[free]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>11fd150178654c9fb22b2a7ce89d0f41</uuid>
+            <name>Utilização de Memória %</name>
+            <graph_items>
+                <graph_item>
+                    <drawtype>FILLED_REGION</drawtype>
+                    <color>1A7C11</color>
+                    <item>
+                        <host>Template Windows Server Passive - Nexa</host>
+                        <key>vm.memory.size[pused]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>

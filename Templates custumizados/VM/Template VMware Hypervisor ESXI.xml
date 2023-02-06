@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.2</version>
+    <date>2023-02-06T13:44:12Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>548049af8afd476e8484e5195778613f</uuid>
+            <name>Template/Customizado</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>19ce6ecd69f847d39258f53407210ab1</uuid>
+            <template>Template Virt VMware Hypervisor ESXi - StandAlone Bello</template>
+            <name>Template Virt VMware Hypervisor ESXi - StandAlone Bello</name>
+            <groups>
+                <group>
+                    <name>Template/Customizado</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>a251f39af60b4fb58630a986a40f50a3</uuid>
+                    <name>Cluster name</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.cluster.name[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>3998b7cab21844a8a4b4a963e27d45a5</uuid>
+                    <name>CPU usage</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.cpu.usage[{$URL},{HOST.HOST}]</key>
+                    <delay>600</delay>
+                    <units>Hz</units>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>bb74ccb3c3ca4ec886d5895fae6ad434</uuid>
+                    <name>Full name</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.fullname[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>ec1ede8a60f24c0c9d61544dc84ee776</uuid>
+                    <name>CPU frequency</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.hw.cpu.freq[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <units>Hz</units>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>ecfc14de773547d6a6cbc78a76be9a9f</uuid>
+                    <name>CPU model</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.hw.cpu.model[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Hardware</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>917bc89b20554e1ebb739a271868525b</uuid>
+                    <name>CPU cores</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.hw.cpu.num[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>0ee9f223c89043648cc4f88f090570bc</uuid>
+                    <name>CPU threads</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.hw.cpu.threads[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Hardware</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>c4eb7d819be847d6abc0e0e3a6cb1b33</uuid>
+                    <name>Total Memory</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.hw.memory[{$URL},{HOST.HOST}]</key>
+                    <delay>1h</delay>
+                    <units>B</units>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>0a55b34e6ddb4000a50e161bba539e23</uuid>
+                    <name>Model</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.hw.model[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Hardware</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>94f4daa3f981489b9528c75940142bce</uuid>
+                    <name>Bios UUID</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.hw.uuid[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Hardware</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>2c8ae5d4ff5541fe86cceec7c1f162bf</uuid>
+                    <name>Vendor</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.hw.vendor[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <trends>0</trends>
+                    <status>DISABLED</status>
+                    <value_type>CHAR</value_type>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Hardware</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>38ce253c76544027a4a7fee375504c17</uuid>
+                    <name>Used memory %</name>
+                    <type>CALCULATED</type>
+                    <key>vmware.hv.memory.pused[{$URL},{HOST.HOST}]</key>
+                    <delay>600</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <params>last(//vmware.hv.memory.used[{$URL},{HOST.HOST}]) * 100 / last(//vmware.hv.hw.memory[{$URL},{HOST.HOST}])</params>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>55d9cf4a5a064770beee285cef1bfe3a</uuid>
+                            <expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.memory.pused[{$URL},{HOST.HOST}],10m)&gt;={$MEMORY.ESXI.VMWARE.DISASTER}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.memory.pused[{$URL},{HOST.HOST}],15m)&lt;={$MEMORY.ESXI.VMWARE.DISASTER}</recovery_expression>
+                            <name>Utilização de Memoria acima de {$MEMORY.ESXI.VMWARE.DISASTER}%</name>
+                            <opdata>Valor atual: {ITEM.LASTVALUE}</opdata>
+                            <priority>DISASTER</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                        <trigger>
+                            <uuid>6451ac548b5b4067bbfeff2e585cf9aa</uuid>
+                            <expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.memory.pused[{$URL},{HOST.HOST}],10m)&gt;={$MEMORY.ESXI.VMWARE.HIGH}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.memory.pused[{$URL},{HOST.HOST}],15m)&lt;={$MEMORY.ESXI.VMWARE.HIGH}</recovery_expression>
+                            <name>Utilização de Memoria acima de {$MEMORY.ESXI.VMWARE.HIGH}%</name>
+                            <opdata>Valor atual: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Utilização de Memoria acima de {$MEMORY.ESXI.VMWARE.DISASTER}%</name>
+                                    <expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.memory.pused[{$URL},{HOST.HOST}],10m)&gt;={$MEMORY.ESXI.VMWARE.DISASTER}</expression>
+                                    <recovery_expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.memory.pused[{$URL},{HOST.HOST}],15m)&lt;={$MEMORY.ESXI.VMWARE.DISASTER}</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>881547b5dc6a4f7e87436764aee98290</uuid>
+                    <name>Ballooned memory</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.memory.size.ballooned[{$URL},{HOST.HOST}]</key>
+                    <delay>600</delay>
+                    <units>B</units>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>7882a50b061c4cf9a60e3c44ec594005</uuid>
+                    <name>Used Memory</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.memory.used[{$URL},{HOST.HOST}]</key>
+                    <delay>600</delay>
+                    <units>B</units>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>980a6943ac5a432e870ea96feb96a0b9</uuid>
+                    <name>Number of bytes received</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.network.in[{$URL},{HOST.HOST},bps]</key>
+                    <delay>600</delay>
+                    <units>Bps</units>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Network</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>ca451efe656841ceb0062de8748ec8d5</uuid>
+                    <name>Number of bytes transmitted</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.network.out[{$URL},{HOST.HOST},bps]</key>
+                    <delay>600</delay>
+                    <units>Bps</units>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Network</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>da567f0261bc47f9b3665ad2958ce8e1</uuid>
+                    <name>CPU usage %</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.perfcounter[{$URL},{HOST.HOST},&quot;cpu/utilization[average]&quot;]</key>
+                    <delay>5m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.01</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>6707b16fb31f461f9387a574632a2c68</uuid>
+                            <expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.perfcounter[{$URL},{HOST.HOST},&quot;cpu/utilization[average]&quot;],10m)&gt;={$MEMORY.ESXI.VMWARE.DISASTER}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.perfcounter[{$URL},{HOST.HOST},&quot;cpu/utilization[average]&quot;],10m)&lt;={$MEMORY.ESXI.VMWARE.DISASTER}</recovery_expression>
+                            <name>Utilização de CPU acima de {$CPU.ESXI.VMWARE.DISASTER}%</name>
+                            <opdata>Valor atual: {ITEM.LASTVALUE}</opdata>
+                            <priority>DISASTER</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                        <trigger>
+                            <uuid>0d40a94296854af0a479ea31d095aa23</uuid>
+                            <expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.perfcounter[{$URL},{HOST.HOST},&quot;cpu/utilization[average]&quot;],10m)&gt;={$CPU.ESXI.VMWARE.HIGH}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.perfcounter[{$URL},{HOST.HOST},&quot;cpu/utilization[average]&quot;],10m)&lt;={$CPU.ESXI.VMWARE.HIGH}</recovery_expression>
+                            <name>Utilização de CPU acima de {$CPU.ESXI.VMWARE.HIGH}%</name>
+                            <opdata>Valor atual: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Utilização de CPU acima de {$CPU.ESXI.VMWARE.DISASTER}%</name>
+                                    <expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.perfcounter[{$URL},{HOST.HOST},&quot;cpu/utilization[average]&quot;],10m)&gt;={$MEMORY.ESXI.VMWARE.DISASTER}</expression>
+                                    <recovery_expression>avg(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.perfcounter[{$URL},{HOST.HOST},&quot;cpu/utilization[average]&quot;],10m)&lt;={$MEMORY.ESXI.VMWARE.DISASTER}</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>60941c9cfe6446d58fba9fbb92b00297</uuid>
+                    <name>Overall status</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.status[{$URL},{HOST.HOST}]</key>
+                    <delay>2m</delay>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <valuemap>
+                        <name>VMware status</name>
+                    </valuemap>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>a34a9fed6a80445598b99253fde61da5</uuid>
+                            <expression>max(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.status[{$URL},{HOST.HOST}],#5)&lt;&gt;1
+and max(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.status[{$URL},{HOST.HOST}],#5)&lt;&gt;2</expression>
+                            <name>Overall status = {ITEM.VALUE}</name>
+                            <priority>AVERAGE</priority>
+                        </trigger>
+                        <trigger>
+                            <uuid>e02aef5bcf7841bea0c0f5cc432b2f98</uuid>
+                            <expression>nodata(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.status[{$URL},{HOST.HOST}],10m)=1</expression>
+                            <name>Vmware ESXi sem receber dados por mais de 10 minutos</name>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <tags>
+                                <tag>
+                                    <tag>{HOST.NAME}</tag>
+                                    <value>agent.nodata</value>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>065f65614570499f9307031b1e924a7a</uuid>
+                    <name>Uptime</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.uptime[{$URL},{HOST.HOST}]</key>
+                    <delay>600</delay>
+                    <units>uptime</units>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>7ef88fa93f9d42f8873c9f607f3430f7</uuid>
+                    <name>Version</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.version[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>583526d7c44e4726a7bf56f4ee909cb6</uuid>
+                    <name>Number of guest VMs</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.vm.num[{$URL},{HOST.HOST}]</key>
+                    <delay>1h</delay>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>132d99e1d8554b15b07ee399124e7521</uuid>
+                    <name>Datastore discovery</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.datastore.discovery[{$URL},{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <lifetime>0</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>371381c872d64e2688db049a9c7d2a83</uuid>
+                            <name>Average read latency of the datastore {#DATASTORE}</name>
+                            <type>SIMPLE</type>
+                            <key>vmware.hv.datastore.read[{$URL},{HOST.HOST},{#DATASTORE},latency]</key>
+                            <delay>600</delay>
+                            <username>{$USERNAME}</username>
+                            <password>{$PASSWORD}</password>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Datastore</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>68329db5dbb5406eae6e8517df6ecfb6</uuid>
+                            <name>Datastore Free {#DATASTORE}</name>
+                            <type>SIMPLE</type>
+                            <key>vmware.hv.datastore.size[{$URL},{HOST.HOST},{#DATASTORE},free]</key>
+                            <delay>600</delay>
+                            <units>B</units>
+                            <username>{$USERNAME}</username>
+                            <password>{$PASSWORD}</password>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Datastore</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>502aa1dae76b4870a5739ec2031b6681</uuid>
+                            <name>Datastore Free % {#DATASTORE}</name>
+                            <type>SIMPLE</type>
+                            <key>vmware.hv.datastore.size[{$URL},{HOST.HOST},{#DATASTORE},pfree]</key>
+                            <delay>300</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>%</units>
+                            <username>{$USERNAME}</username>
+                            <password>{$PASSWORD}</password>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Datastore</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>e671f9127dd54fa6932deddaf7b52bf9</uuid>
+                                    <expression>last(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.datastore.size[{$URL},{HOST.HOST},{#DATASTORE},pfree])&lt;15</expression>
+                                    <name>Datastore {#DATASTORE} is  85% Used</name>
+                                    <status>DISABLED</status>
+                                    <priority>AVERAGE</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Datastore {#DATASTORE} is  90% Used</name>
+                                            <expression>last(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.datastore.size[{$URL},{HOST.HOST},{#DATASTORE},pfree])&lt;10</expression>
+                                        </dependency>
+                                        <dependency>
+                                            <name>Datastore {#DATASTORE} is  95% Used</name>
+                                            <expression>last(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.datastore.size[{$URL},{HOST.HOST},{#DATASTORE},pfree])&lt;5</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>85767d25585a4c1180834ae60fe18a5c</uuid>
+                                    <expression>last(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.datastore.size[{$URL},{HOST.HOST},{#DATASTORE},pfree])&lt;10</expression>
+                                    <name>Datastore {#DATASTORE} is  90% Used</name>
+                                    <status>DISABLED</status>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Datastore {#DATASTORE} is  95% Used</name>
+                                            <expression>last(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.datastore.size[{$URL},{HOST.HOST},{#DATASTORE},pfree])&lt;5</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>23c6f68bc5c64a3885e3feb818f4951e</uuid>
+                                    <expression>last(/Template Virt VMware Hypervisor ESXi - StandAlone Bello/vmware.hv.datastore.size[{$URL},{HOST.HOST},{#DATASTORE},pfree])&lt;5</expression>
+                                    <name>Datastore {#DATASTORE} is  95% Used</name>
+                                    <status>DISABLED</status>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>1a7d3cec6ce34449be0c9d03ebeb9ff3</uuid>
+                            <name>Datastore Total  {#DATASTORE}</name>
+                            <type>SIMPLE</type>
+                            <key>vmware.hv.datastore.size[{$URL},{HOST.HOST},{#DATASTORE},total]</key>
+                            <delay>1d</delay>
+                            <units>B</units>
+                            <username>{$USERNAME}</username>
+                            <password>{$PASSWORD}</password>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Datastore</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>569e83c5f2074db6bb17101876b25076</uuid>
+                            <name>Average write latency of the datastore {#DATASTORE}</name>
+                            <type>SIMPLE</type>
+                            <key>vmware.hv.datastore.write[{$URL},{HOST.HOST},{#DATASTORE},latency]</key>
+                            <delay>600</delay>
+                            <username>{$USERNAME}</username>
+                            <password>{$PASSWORD}</password>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Datastore</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                    <request_method>POST</request_method>
+                </discovery_rule>
+            </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$CPU.ESXI.VMWARE.DISASTER}</macro>
+                    <value>98</value>
+                </macro>
+                <macro>
+                    <macro>{$CPU.ESXI.VMWARE.HIGH}</macro>
+                    <value>95</value>
+                </macro>
+                <macro>
+                    <macro>{$MEMORY.ESXI.VMWARE.DISASTER}</macro>
+                    <value>98</value>
+                </macro>
+                <macro>
+                    <macro>{$MEMORY.ESXI.VMWARE.HIGH}</macro>
+                    <value>95</value>
+                </macro>
+            </macros>
+            <valuemaps>
+                <valuemap>
+                    <uuid>1434378b5fc04e678b6f8a14419b4277</uuid>
+                    <name>VMware status</name>
+                    <mappings>
+                        <mapping>
+                            <value>0</value>
+                            <newvalue>gray</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>green</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>2</value>
+                            <newvalue>yellow</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>3</value>
+                            <newvalue>red</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+    </templates>
+</zabbix_export>

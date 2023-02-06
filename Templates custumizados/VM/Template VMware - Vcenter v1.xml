@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.2</version>
+    <date>2023-02-06T13:41:17Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>8bfe84a3c099427b86f6bee55ae3fd10</uuid>
+            <name>Template/Bello</name>
+        </template_group>
+    </template_groups>
+    <host_groups>
+        <host_group>
+            <uuid>09344a25b6a34051bbdec7a609d0fe5e</uuid>
+            <name>01 - Servidores</name>
+        </host_group>
+        <host_group>
+            <uuid>8c9a81961500476fbf5709f1fae09ed4</uuid>
+            <name>01 - Servidores/1 - PRD/1.1 - Servidores Hypervisor/1.1.2 - VMWARE</name>
+        </host_group>
+    </host_groups>
+    <templates>
+        <template>
+            <uuid>2b13072d1b504001a5aa77d2f8f5431a</uuid>
+            <template>Template VM VMware - VCenter v1 - Nexa</template>
+            <name>Template VM VMware - VCenter v1 - Nexa</name>
+            <templates>
+                <template>
+                    <name>Template Module ICMP Ping</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>Template/Bello</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>adb5a7eecd6f48d3be43cf1a4d4f54fc</uuid>
+                    <name>Event log</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.eventlog[{$URL},skip]</key>
+                    <delay>5m</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <preprocessing>
+                        <step>
+                            <type>REGEX</type>
+                            <parameters>
+                                <parameter>Alarm '.*'</parameter>
+                                <parameter>\0</parameter>
+                            </parameters>
+                            <error_handler>DISCARD_VALUE</error_handler>
+                        </step>
+                    </preprocessing>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Log</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>66157ff54b8b44f6889c7554589595e0</uuid>
+                            <expression>find(/Template VM VMware - VCenter v1 - Nexa/vmware.eventlog[{$URL},skip],,&quot;iregexp&quot;,&quot;password&quot;)=1</expression>
+                            <name>Event: Expired password</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>7df0d9aec8de4decb4622ea88fd58d1e</uuid>
+                    <name>Full name</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.fullname[{$URL}]</key>
+                    <delay>1h</delay>
+                    <trends>0</trends>
+                    <status>DISABLED</status>
+                    <value_type>CHAR</value_type>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>7a52da4c605f4e32bd3567c4a75ddca5</uuid>
+                    <name>Version</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.version[{$URL}]</key>
+                    <delay>1h</delay>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                    </tags>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>f15ce2e445ea459da5643f290ba3b40b</uuid>
+                    <name>Discover VMware clusters</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.cluster.discovery[{$URL}]</key>
+                    <delay>1h</delay>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>54bdbe50af4f4fc3b923aae03f0b66b9</uuid>
+                            <name>Status of &quot;{#CLUSTER.NAME}&quot; cluster</name>
+                            <type>SIMPLE</type>
+                            <key>vmware.cluster.status[{$URL},{#CLUSTER.NAME}]</key>
+                            <delay>5m</delay>
+                            <username>{$USERNAME}</username>
+                            <password>{$PASSWORD}</password>
+                            <valuemap>
+                                <name>VMware status</name>
+                            </valuemap>
+                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Clusters</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>c836e2b5c78b4f6a8501c9717d00a718</uuid>
+                                    <expression>nodata(/Template VM VMware - VCenter v1 - Nexa/vmware.cluster.status[{$URL},{#CLUSTER.NAME}],15m)=1</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>nodata(/Template VM VMware - VCenter v1 - Nexa/vmware.cluster.status[{$URL},{#CLUSTER.NAME}],15m)&lt;&gt;1</recovery_expression>
+                                    <name>Sem comunicação com o VCenter</name>
+                                    <priority>HIGH</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>SicoobSP</tag>
+                                            <value>agent.nodata</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <uuid>d3f73bb517e8457e83033c58a661b435</uuid>
+                            <expression>last(/Template VM VMware - VCenter v1 - Nexa/vmware.cluster.status[{$URL},{#CLUSTER.NAME}])&lt;&gt;1 and find(/Template VM VMware - VCenter v1 - Nexa/vmware.eventlog[{$URL},skip],,&quot;iregexp&quot;,&quot;error&quot;)=1</expression>
+                            <name>Cluster is {ITEM.VALUE} Event: {ITEM.VALUE2}</name>
+                            <priority>HIGH</priority>
+                        </trigger_prototype>
+                    </trigger_prototypes>
+                    <request_method>POST</request_method>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>506d4e2133254de190e9898a103da1a3</uuid>
+                    <name>Discover VMware datastores</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.datastore.discovery[{$URL}]</key>
+                    <delay>1h</delay>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>371f04cfb8044ba0992a1504d9d33571</uuid>
+                            <name>Forecast Free space on datastore {#DATASTORE} (percentage) 30d</name>
+                            <type>CALCULATED</type>
+                            <key>vmware.datastore.size.forecast[{$URL},{#DATASTORE},pfree]</key>
+                            <delay>5m</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>%</units>
+                            <params>forecast(//vmware.datastore.size[{$URL},{#DATASTORE},pfree],10d,30d)</params>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Datastore</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>eb85e58576234a67b84f1bb884443d12</uuid>
+                            <name>Free space on datastore bytes {#DATASTORE}</name>
+                            <type>SIMPLE</type>
+                            <key>vmware.datastore.size[{$URL},{#DATASTORE},free]</key>
+                            <delay>5m</delay>
+                            <units>B</units>
+                            <username>{$USERNAME}</username>
+                            <password>{$PASSWORD}</password>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Datastore</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>511f474afd3f4008834af3771db464f2</uuid>
+                            <name>Free space on datastore percentage {#DATASTORE}</name>
+                            <type>SIMPLE</type>
+                            <key>vmware.datastore.size[{$URL},{#DATASTORE},pfree]</key>
+                            <delay>5m</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>%</units>
+                            <username>{$USERNAME}</username>
+                            <password>{$PASSWORD}</password>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Datastore</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>ddd18a5ff1184996b57cacd8026e85f8</uuid>
+                                    <expression>avg(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree],10m)&lt;={$DATASTORE.AVERAGE: &quot;{#DATASTORE}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>avg(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree],10m)&gt;={$DATASTORE.AVERAGE: &quot;{#DATASTORE}&quot;}</recovery_expression>
+                                    <name>Espaço Livre no Datastore {#DATASTORE} abaixo de {$DATASTORE.AVERAGE: &quot;{#DATASTORE}&quot;}%</name>
+                                    <opdata>Valor atual: {ITEM.LASTVALUE}</opdata>
+                                    <priority>AVERAGE</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Espaço Livre no Datastore {#DATASTORE} abaixo de {$DATASTORE.DISASTER: &quot;{#DATASTORE}&quot;}%</name>
+                                            <expression>last(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree])&lt;={$DATASTORE.DISASTER: &quot;{#DATASTORE}&quot;}</expression>
+                                            <recovery_expression>last(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree])&gt;={$DATASTORE.DISASTER: &quot;{#DATASTORE}&quot;}</recovery_expression>
+                                        </dependency>
+                                        <dependency>
+                                            <name>Espaço Livre no Datastore {#DATASTORE} abaixo de {$DATASTORE.HIGH: &quot;{#DATASTORE}&quot;}%</name>
+                                            <expression>avg(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree],10m)&lt;={$DATASTORE.HIGH: &quot;{#DATASTORE}&quot;}</expression>
+                                            <recovery_expression>avg(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree],10m)&gt;={$DATASTORE.HIGH: &quot;{#DATASTORE}&quot;}</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>19382a0674f14f7b87eb5d6f6b636acf</uuid>
+                                    <expression>last(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree])&lt;={$DATASTORE.DISASTER: &quot;{#DATASTORE}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree])&gt;={$DATASTORE.DISASTER: &quot;{#DATASTORE}&quot;}</recovery_expression>
+                                    <name>Espaço Livre no Datastore {#DATASTORE} abaixo de {$DATASTORE.DISASTER: &quot;{#DATASTORE}&quot;}%</name>
+                                    <opdata>Valor atual: {ITEM.LASTVALUE}</opdata>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>7607b8eb83d54556a5ee5a23a00f5621</uuid>
+                                    <expression>avg(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree],10m)&lt;={$DATASTORE.HIGH: &quot;{#DATASTORE}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>avg(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree],10m)&gt;={$DATASTORE.HIGH: &quot;{#DATASTORE}&quot;}</recovery_expression>
+                                    <name>Espaço Livre no Datastore {#DATASTORE} abaixo de {$DATASTORE.HIGH: &quot;{#DATASTORE}&quot;}%</name>
+                                    <opdata>Valor atual: {ITEM.LASTVALUE}</opdata>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Espaço Livre no Datastore {#DATASTORE} abaixo de {$DATASTORE.DISASTER: &quot;{#DATASTORE}&quot;}%</name>
+                                            <expression>last(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree])&lt;={$DATASTORE.DISASTER: &quot;{#DATASTORE}&quot;}</expression>
+                                            <recovery_expression>last(/Template VM VMware - VCenter v1 - Nexa/vmware.datastore.size[{$URL},{#DATASTORE},pfree])&gt;={$DATASTORE.DISASTER: &quot;{#DATASTORE}&quot;}</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>91b1766d5d854784adc35127b332d28d</uuid>
+                            <name>Total size of datastore {#DATASTORE}</name>
+                            <type>SIMPLE</type>
+                            <key>vmware.datastore.size[{$URL},{#DATASTORE}]</key>
+                            <delay>1h</delay>
+                            <units>B</units>
+                            <username>{$USERNAME}</username>
+                            <password>{$PASSWORD}</password>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Datastore</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>b5e01231b4f44142a721f0254f474ad2</uuid>
+                    <name>Discover VMware hypervisors</name>
+                    <type>SIMPLE</type>
+                    <key>vmware.hv.discovery[{$URL}]</key>
+                    <delay>1h</delay>
+                    <username>{$USERNAME}</username>
+                    <password>{$PASSWORD}</password>
+                    <host_prototypes>
+                        <host_prototype>
+                            <uuid>6130558527514b1fa375e68767f40152</uuid>
+                            <host>{#HV.UUID}</host>
+                            <name>Hypervisor - VMWAre Esxi - {#HV.NAME}</name>
+                            <group_links>
+                                <group_link>
+                                    <group>
+                                        <name>01 - Servidores</name>
+                                    </group>
+                                </group_link>
+                                <group_link>
+                                    <group>
+                                        <name>01 - Servidores/1 - PRD/1.1 - Servidores Hypervisor/1.1.2 - VMWARE</name>
+                                    </group>
+                                </group_link>
+                            </group_links>
+                            <templates>
+                                <template>
+                                    <name>Template Module ICMP Ping</name>
+                                </template>
+                                <template>
+                                    <name>Template Virt VMware Hypervisor ESXi - StandAlone Bello</name>
+                                </template>
+                            </templates>
+                        </host_prototype>
+                    </host_prototypes>
+                    <request_method>POST</request_method>
+                </discovery_rule>
+            </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$DATASTORE.AVERAGE}</macro>
+                    <value>10</value>
+                </macro>
+                <macro>
+                    <macro>{$DATASTORE.DISASTER}</macro>
+                    <value>2</value>
+                </macro>
+                <macro>
+                    <macro>{$DATASTORE.HIGH}</macro>
+                    <value>5</value>
+                </macro>
+                <macro>
+                    <macro>{$PASSWORD}</macro>
+                </macro>
+                <macro>
+                    <macro>{$URL}</macro>
+                </macro>
+                <macro>
+                    <macro>{$USERNAME}</macro>
+                </macro>
+            </macros>
+            <valuemaps>
+                <valuemap>
+                    <uuid>4b330ee220bb453eba46ef964437ac6e</uuid>
+                    <name>VMware status</name>
+                    <mappings>
+                        <mapping>
+                            <value>0</value>
+                            <newvalue>gray</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>green</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>2</value>
+                            <newvalue>yellow</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>3</value>
+                            <newvalue>red</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+    </templates>
+</zabbix_export>

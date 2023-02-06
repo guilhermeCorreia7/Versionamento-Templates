@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.2</version>
+    <date>2023-02-06T14:10:17Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
+            <name>Templates</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>48e2e7f03d264beba50e09f435083d77</uuid>
+            <template>401 - Templante UPS</template>
+            <name>401 - Templante UPS</name>
+            <templates>
+                <template>
+                    <name>Generic SNMP</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>38a16d82cf614c18a7d7c8d706218ed7</uuid>
+                    <name>Corrente da bateria</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>SNMPv2-SMI::mib-2.33.1.2.6.0</snmp_oid>
+                    <key>corrente.bateria</key>
+                    <units>A</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>UPS</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>f7dd26c7420c45c88cb331b9b026fa48</uuid>
+                    <name>Tempo na bateria</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>SNMPv2-SMI::mib-2.33.1.2.2.0</snmp_oid>
+                    <key>tempo.bateria</key>
+                    <delay>1h</delay>
+                    <units>s</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>UPS</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>f582d88ad5314a0e91d7120e49f67bcb</uuid>
+                    <name>Status da Bateria</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.2.1.0</snmp_oid>
+                    <key>upsBatteryStatus</key>
+                    <delay>5m</delay>
+                    <history>30d</history>
+                    <trends>0d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>UPS</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>d39324c5b8cb4566bb858c60d8450a55</uuid>
+                    <name>Temperatura das Baterias</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.2.7.0</snmp_oid>
+                    <key>upsBatteryTemperature</key>
+                    <delay>5m</delay>
+                    <history>30d</history>
+                    <trends>0d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>UPS</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>3d0ccb9e4d3542a0baebc33c7ca34d3b</uuid>
+                    <name>Tensao da Bateria</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.2.5.0</snmp_oid>
+                    <key>upsBatteryVoltage</key>
+                    <delay>5m</delay>
+                    <history>30d</history>
+                    <trends>0d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>UPS</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>769a107a5b624550ab01bce3ed7b3be8</uuid>
+                    <name>Minutos Restantes</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.2.3.0</snmp_oid>
+                    <key>upsEstimatedMinutesRemaining</key>
+                    <delay>5m</delay>
+                    <history>30d</history>
+                    <trends>60d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>UPS</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>49aaceb1430c4b529d0cd841c1b79412</uuid>
+                    <name>Tensao de Entrada</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.33.1.3.3.1.3.1</snmp_oid>
+                    <key>upsInputVoltage</key>
+                    <delay>5m</delay>
+                    <history>30d</history>
+                    <trends>0d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>UPS</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>6785184811694bf9a1767f5847d1bf80</uuid>
+                    <name>Origem de saida Energia</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.33.1.4.1.0</snmp_oid>
+                    <key>upsOutputSource</key>
+                    <delay>5m</delay>
+                    <history>30d</history>
+                    <trends>60d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>UPS</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>7050d2a4ba514ac98226406631914005</uuid>
+                    <name>Tensao de Saida</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.33.1.4.4.1.2.1</snmp_oid>
+                    <key>upsOutputVoltage</key>
+                    <delay>5m</delay>
+                    <history>30d</history>
+                    <trends>0d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>UPS</value>
+                        </tag>
+                    </tags>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>b71af52b9ee94cfa914597da1e01e62f</uuid>
+                    <name>Descoberta automática de Corrente de entrada</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>discovery[{#SNMPVALUE},1.3.6.1.2.1.33.1.3.3.1.4]</snmp_oid>
+                    <key>corrente.discovery</key>
+                    <delay>30m</delay>
+                    <description>Descoberta automática de Corrente de fase</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>17b57f9cc84d49758a84eedb0ba0bf26</uuid>
+                            <name>Corrente de entrada da fase {#SNMPINDEX}</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.4.{#SNMPINDEX}</snmp_oid>
+                            <key>corrente.[{#SNMPINDEX}]</key>
+                            <delay>3m</delay>
+                            <units>A</units>
+                            <preprocessing>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <parameters>
+                                        <parameter>0.1</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Entrada de rede</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>3c51ebfa2baf47738817d83ea94d1020</uuid>
+                    <name>Descoberta automática de Corrente de Saida</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>discovery[{#SNMPVALUE},1.3.6.1.2.1.33.1.4.4.1.3]</snmp_oid>
+                    <key>corrente.s.discovery</key>
+                    <delay>30m</delay>
+                    <description>Descoberta automática de Corrente de fase</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>77f8e08229b24e309218b30078bf5f5e</uuid>
+                            <name>Corrente de saida da fase {#SNMPINDEX}</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.3.{#SNMPINDEX}</snmp_oid>
+                            <key>corrente.s.[{#SNMPINDEX}]</key>
+                            <delay>3m</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>A</units>
+                            <preprocessing>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <parameters>
+                                        <parameter>0.1</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Saida de rede</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>b45bdf2c20c84741a08cd08c69154b4b</uuid>
+                    <name>Descoberta automática de Frequência de entrada</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>discovery[{#SNMPVALUE},1.3.6.1.2.1.33.1.3.3.1.2]</snmp_oid>
+                    <key>frequencia.discovery</key>
+                    <delay>30m</delay>
+                    <description>Descoberta automática de Tensao de fase</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>92603c829dbf4ffeb35a71896b6077ac</uuid>
+                            <name>Frequencia de entrada da fase {#SNMPINDEX}</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.2.{#SNMPINDEX}</snmp_oid>
+                            <key>frequencia.[{#SNMPINDEX}]</key>
+                            <delay>3m</delay>
+                            <units>Hz</units>
+                            <preprocessing>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <parameters>
+                                        <parameter>0.1</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Entrada de rede</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>8fadda83e7b2437485292105fa925160</uuid>
+                    <name>Descoberta automática de Percentual de carga de Saída</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>discovery[{#SNMPVALUE},1.3.6.1.2.1.33.1.4.4.1.5]</snmp_oid>
+                    <key>percentual.s.discovery</key>
+                    <delay>30m</delay>
+                    <description>Descoberta automática de Percentual de carga da saída de fase</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>d483653388fe4fa6a83c08d904fcc5dc</uuid>
+                            <name>Percentual de carga na saída da fase {#SNMPINDEX}</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.5.{#SNMPINDEX}</snmp_oid>
+                            <key>percentual.s.[{#SNMPINDEX}]</key>
+                            <delay>3m</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>%</units>
+                            <preprocessing>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <parameters>
+                                        <parameter>0.1</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Saida de rede</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>c34356322d1c499bbe12116eef888e3e</uuid>
+                    <name>Descoberta automática de Potência de Saída</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>discovery[{#SNMPVALUE},1.3.6.1.2.1.33.1.4.4.1.4]</snmp_oid>
+                    <key>potencia.s.discovery</key>
+                    <delay>30m</delay>
+                    <description>Descoberta automática de Potencia de saída de fase</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>9e7510567a894f72add09956fd7b5295</uuid>
+                            <name>Potencia de saída da fase {#SNMPINDEX}</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.4.{#SNMPINDEX}</snmp_oid>
+                            <key>potencia.s.[{#SNMPINDEX}]</key>
+                            <delay>3m</delay>
+                            <units>W</units>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Saida de rede</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>9cfe89c3bf254a61a4ba2c1412e75216</uuid>
+                    <name>Descoberta automática de Tensão de entrada</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>discovery[{#SNMPVALUE},1.3.6.1.2.1.33.1.3.3.1.3]</snmp_oid>
+                    <key>tensao.discovery</key>
+                    <delay>30m</delay>
+                    <description>Descoberta automática de Tensao de fase</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>5f9a98e6f43443ca961d386c4d474e37</uuid>
+                            <name>Tensao de entrada da fase {#SNMPINDEX}</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.2.1.33.1.3.3.1.3.{#SNMPINDEX}</snmp_oid>
+                            <key>tensao.[{#SNMPINDEX}]</key>
+                            <delay>3m</delay>
+                            <units>V</units>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Entrada de rede</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>960479598fc6422790914038b2aa85f8</uuid>
+                    <name>Descoberta automática de Tensão de Saída</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>discovery[{#SNMPVALUE},1.3.6.1.2.1.33.1.4.4.1.2]</snmp_oid>
+                    <key>tensao.s.discovery</key>
+                    <delay>30m</delay>
+                    <description>Descoberta automática de Tensão de fase</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>64778cd8c75d4ac1aa818161a5812c03</uuid>
+                            <name>Tensão de saída da fase {#SNMPINDEX}</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.2.1.33.1.4.4.1.2.{#SNMPINDEX}</snmp_oid>
+                            <key>tensao.s.[{#SNMPINDEX}]</key>
+                            <delay>3m</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>V</units>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Saida de rede</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$SNMP_COMMUNITY}</macro>
+                    <value>public</value>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.2</version>
+    <date>2023-02-06T13:59:45Z</date>
+    <groups>
+        <group>
+            <name>Templates/Operating systems</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template OS Windows by Zabbix agent v1</template>
+            <name>Template OS Windows by Zabbix agent v1</name>
+            <description>Official Windows template. Requires agent of Zabbix 4.4 and newer.
+
+
+You can discuss this template or leave feedback on our forum https://www.zabbix.com/forum/zabbix-suggestions-and-feedback/387224-discussion-thread-for-official-zabbix-template-for-windows
+
+Template tooling version used: 0.32</description>
+            <templates>
+                <template>
+                    <name>Template Module Windows CPU by Zabbix agent</name>
+                </template>
+                <template>
+                    <name>Template Module Windows filesystems by Zabbix agent</name>
+                </template>
+                <template>
+                    <name>Template Module Windows generic by Zabbix agent</name>
+                </template>
+                <template>
+                    <name>Template Module Windows memory by Zabbix agent</name>
+                </template>
+                <template>
+                    <name>Template Module Windows network by Zabbix agent</name>
+                </template>
+                <template>
+                    <name>Template Module Windows physical disks by Zabbix agent</name>
+                </template>
+                <template>
+                    <name>Template Module Windows Services by Zabbix Agent</name>
+                </template>
+                <template>
+                    <name>Template Module Zabbix agent</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
+                </group>
+            </groups>
+            <dashboards>
+                <dashboard>
+                    <name>Netowrk interfaces</name>
+                    <widgets>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <width>24</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>Interface {#IFNAME}({#IFALIAS}): Network traffic</name>
+                                        <host>Template OS Windows by Zabbix agent v1</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                    </widgets>
+                </dashboard>
+                <dashboard>
+                    <name>System performance</name>
+                    <widgets>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <width>12</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>CPU usage</name>
+                                        <host>Template OS Windows by Zabbix agent v1</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <x>12</x>
+                            <width>12</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>source_type</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>ITEM</type>
+                                    <name>itemid</name>
+                                    <value>
+                                        <key>perf_counter_en[&quot;\System\Processor Queue Length&quot;]</key>
+                                        <host>Template OS Windows by Zabbix agent v1</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <y>5</y>
+                            <width>12</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>Memory utilization</name>
+                                        <host>Template OS Windows by Zabbix agent v1</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <x>12</x>
+                            <y>5</y>
+                            <width>12</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>Swap usage</name>
+                                        <host>Template OS Windows by Zabbix agent v1</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <y>10</y>
+                            <width>24</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>{#FSNAME}: Disk space usage</name>
+                                        <host>Template OS Windows by Zabbix agent v1</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <y>15</y>
+                            <width>24</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>{#DEVNAME}: Disk read/write rates</name>
+                                        <host>Template OS Windows by Zabbix agent v1</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <y>20</y>
+                            <width>24</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>{#DEVNAME}: Disk utilization and queue</name>
+                                        <host>Template OS Windows by Zabbix agent v1</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <y>25</y>
+                            <width>24</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>Interface {#IFNAME}({#IFALIAS}): Network traffic</name>
+                                        <host>Template OS Windows by Zabbix agent v1</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                    </widgets>
+                </dashboard>
+            </dashboards>
+        </template>
+    </templates>
+</zabbix_export>
