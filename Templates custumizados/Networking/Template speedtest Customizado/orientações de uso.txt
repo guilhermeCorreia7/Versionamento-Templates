@@ -1,0 +1,19 @@
+1 - instalar o cli do speedtest no servidor ou proxy que vai realizar o teste:
+#yum install python3-pip
+
+#pip3 install speedtest-cli
+
+2- Testar se está funcionando com os comandos:
+#speedtest
+
+#speedtest --json
+
+3- Criar usuário e senha para acesso via ssh, que sera utilizado pelo Zabbix. Execute esses comando no servidor:
+#useradd -g (GRUPO DO USER) -c ("DESCRIÇÃO DO USER") (NOME DO USER)
+
+#passwd (NOME DO USER) -> Definir a senha para o usuário
+Em caso de sucesso, você tera um retorno parecido com "passwd: all authentication tokens update successfully"
+
+3- Importar o template "Template Internet Speedtest" para o Zabbix.
+
+4- Criar um novo host (o ip deve ser o mesmo da máquina que está instalado o utilitário do speedtest), atribuir o template importado, e defina as macros {$SSH.USERNAME} e {$SSH.PASS} com o user e senha que foi configurado para acesso ssh ao servidor

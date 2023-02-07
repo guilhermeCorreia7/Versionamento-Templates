@@ -1,0 +1,9 @@
+PEGAR UUID PARA MONITORAR VMWARE:
+
+rodar esse comando na vm:
+esxcfg-info -u |awk '{print tolower($0)}'
+
+setar:
+{$URL} - URL de serviço do VMware (vCenter ou ESX hypervisor) - SDK URL (https://servername/sdk).
+{$USERNAME} - Usuário para acesso ao serviço VMware
+{$PASSWORD} - Senha para o serviço VMware
