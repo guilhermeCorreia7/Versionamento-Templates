@@ -1,0 +1,45 @@
+Instalar Grafana:
+
+Acessar a documentação do grafana.
+
+Criar um novo arquivo no repositório YUM
+	vim /etc/yum.repos.d/grafana.repo
+
+Carregar o conteudo para dentro desse arquivo (consultar na documentação se houve alteração):
+[grafana]
+name=grafana
+baseurl=https://rpm.grafana.com
+repo_gpgcheck=1
+enabled=1
+gpgcheck=1
+gpgkey=https://rpm.grafana.com/gpg.key
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+
+Instale o grafana
+	dnf install -y grafana
+	
+Habilite o serviço do grana pra inciar automaticamente
+	systemctl enable grafana-server
+	
+Crie a regra de firewall para a porta do grafana (padrão é 3000)
+	firewall-cmd --permanent --add-port=3000/tcp
+	firewall-cmd --reload
+	
+senha e usuário padrão é 'admin'
+
+
+Conectar grafana na Database do Zabbix:
+
+Acesse o servidor, e digite o seguinte comando (validar se esse comando teve alterações na documentação do grafana)
+	grafana-cli plugins install alexanderzobnin-zabbix-app
+	
+Entrar no grafana, e nos plugins verificar se o plugin 'Zabbix' está habilitado
+
+ir no menu Data Sources, e buscar por Zabbix
+
+Definir nome, a url do zabbix e no final da url colocar /api_jsonrpc.php
+
+Acessar o zabbix e criar um usuário para o grafana utilizar, esse usuário deve ter o super admin role configurado
+
+No grafana, definir a API details, com o user e senha que foram criados no zabbix.
