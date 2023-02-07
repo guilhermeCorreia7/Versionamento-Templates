@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.0</version>
+    <date>2023-02-07T03:21:24Z</date>
+    <groups>
+        <group>
+            <uuid>5ae293fd3e1442a29e78d8f17613f768</uuid>
+            <name>Templates/Customizados</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <uuid>3efe82cb2f454ffe894d7d2406b16ccc</uuid>
+            <template>Template Internet Speedtest</template>
+            <name>Template Internet Speedtest</name>
+            <description>Template criado para fazer o monitoramento da velocidade de download e upload da internet.</description>
+            <groups>
+                <group>
+                    <name>Templates/Customizados</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>a80723fc9f7046bf8a7e0fadbe7ed98a</uuid>
+                    <name>RAW download speed</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.download</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.download</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(((value/1024)/1024).toFixed(2))</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>353b950ea26b4a36b81f5250de178111</uuid>
+                    <name>Download Speed</name>
+                    <type>CALCULATED</type>
+                    <key>speedtest.downloadCalculate</key>
+                    <value_type>FLOAT</value_type>
+                    <units>Mbps</units>
+                    <params>last(//speedtest.download)</params>
+                </item>
+                <item>
+                    <uuid>069a471c7a1541e79486e61c503be0a7</uuid>
+                    <name>IP Provider</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.IPprovider</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.client.ip</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>1195b73487744897a34cb4b6c9b9eec7</uuid>
+                    <name>RAW Latency</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.latency</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.server.latency</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(value)</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>f9cc457a128d4915bd542abc1b1cb348</uuid>
+                    <name>Latency</name>
+                    <type>CALCULATED</type>
+                    <key>speedtest.latencyCalculate</key>
+                    <value_type>FLOAT</value_type>
+                    <units>ms</units>
+                    <params>last(//speedtest.latency)</params>
+                </item>
+                <item>
+                    <uuid>0e89f1c56ced410eb371c93e46befdf0</uuid>
+                    <name>ISP Provider</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.provider</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.client.isp</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>789042b80f284d01818975d2b335f86c</uuid>
+                    <name>RAW download speed</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.upload</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.upload</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(((value/1024)/1024).toFixed(2))</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>66e17ffee68c41fbab2a4450c08cae75</uuid>
+                    <name>Upload Speed</name>
+                    <type>CALCULATED</type>
+                    <key>speedtest.uploadCalculate</key>
+                    <value_type>FLOAT</value_type>
+                    <units>Mbps</units>
+                    <params>last(//speedtest.upload)</params>
+                </item>
+                <item>
+                    <uuid>433b88fd2dc643a698ebf7be6681b757</uuid>
+                    <name>RAW SpeedTest</name>
+                    <type>SSH</type>
+                    <key>ssh.run[speedtest.json]</key>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <params>speedtest --json</params>
+                    <username>{$SSH.USERNAME}</username>
+                    <password>{$SSH.PASS}</password>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$SSH.PASS}</macro>
+                    <description>Definir senha de acesso ao servidor (se tiver)</description>
+                </macro>
+                <macro>
+                    <macro>{$SSH.USERNAME}</macro>
+                    <description>Definir usuário de acesso ao servidor</description>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>
