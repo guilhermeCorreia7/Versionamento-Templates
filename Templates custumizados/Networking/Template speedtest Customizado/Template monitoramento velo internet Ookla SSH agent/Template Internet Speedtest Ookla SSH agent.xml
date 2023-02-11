@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.0</version>
+    <date>2023-02-11T17:14:34Z</date>
+    <groups>
+        <group>
+            <uuid>5ae293fd3e1442a29e78d8f17613f768</uuid>
+            <name>Templates/Customizados</name>
+        </group>
+        <group>
+            <uuid>f97b05aa5d6740c789dd108f95d1f541</uuid>
+            <name>Templates/Guilherme</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <uuid>caf58688d7a14158af92607886e596c8</uuid>
+            <template>Template Internet Speedtest Ookla</template>
+            <name>Template Internet Speedtest Ookla</name>
+            <description>Versão: 3.0
+Template criado para fazer o monitoramento da velocidade de download e upload da internet. Baseado no retorno json do speedtest da Ookla.
+
+Criado por Guilherme Correia
+LinkedIn: https://www.linkedin.com/in/guilherme-correia7/</description>
+            <groups>
+                <group>
+                    <name>Templates/Customizados</name>
+                </group>
+                <group>
+                    <name>Templates/Guilherme</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>0e455c7a0c3545b5b5a4ced2962a4be2</uuid>
+                    <name>Download Speed</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.download</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>Mbps</units>
+                    <description>Coleta o valor bruto em B/s do item 'RAW SpeedTest Ookla' e converte pra Mbps.
+Arredonda duas casas decimais.</description>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.download.bandwidth</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(value/125000).toFixed(2)</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>22f03540f24a47dfbcfc80b1ba9c856a</uuid>
+                    <name>Download Jitter</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.downloadjitter</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>ms</units>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.download.latency.jitter</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(value)</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>772fd0cbeae14b38874a72b88d06c270</uuid>
+                    <name>Download Latency</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.downloadlatency</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>ms</units>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.download.latency.iqm</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(value)</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>37195dcdc994496b8a000a6da94209a8</uuid>
+                    <name>Latência</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.latency</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>ms</units>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.ping.latency</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(value)</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>87bc605bfefe42a289d9eb6d1b1b376d</uuid>
+                    <name>Perda de Pacote em %</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.packetLoss</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.packetLoss</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(value).toFixed(2)</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>68b35813ef0948629749a77567df19ea</uuid>
+                    <name>ISP Provider</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.provider</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.isp</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>5f2acab2d6b645c1940cbebacff3b124</uuid>
+                    <name>Server Data</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.ServerData</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.server</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>STR_REPLACE</type>
+                            <parameters>
+                                <parameter>&quot;'</parameter>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>STR_REPLACE</type>
+                            <parameters>
+                                <parameter>'</parameter>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>31c5d27f16be4554a17739b53be1a6f0</uuid>
+                    <name>Upload Speed</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.upload</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>Mbps</units>
+                    <description>Coleta o valor bruto em B/s do item 'RAW SpeedTest Ookla' e converte pra Mbps.
+Arredonda duas casas decimais.</description>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.upload.bandwidth</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(value/125000).toFixed(2)</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>27611661baf04b5d85ebbce0a4f617cd</uuid>
+                    <name>Upload Jitter</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.uploadjitter</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>ms</units>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.upload.latency.jitter</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(value)</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>7df7e38715d04716bac102090f2a4d68</uuid>
+                    <name>Upload Latency</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.uploadlatency</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>ms</units>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.upload.latency.iqm</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return parseFloat(value)</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>c595c109332c4f8eb2fe5b0d1b8411f4</uuid>
+                    <name>Links dos Testes</name>
+                    <type>DEPENDENT</type>
+                    <key>speedtest.URLprovider</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.result.url</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>ssh.run[speedtest.json]</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>8697bdc090d5439281f744460718c98b</uuid>
+                    <name>RAW SpeedTest Ookla</name>
+                    <type>SSH</type>
+                    <key>ssh.run[speedtest.json]</key>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <params>speedtest -f json</params>
+                    <username>{$SSH.USERNAME}</username>
+                    <password>{$SSH.PASS}</password>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$SSH.PASS}</macro>
+                    <description>Senha do usuário</description>
+                </macro>
+                <macro>
+                    <macro>{$SSH.USERNAME}</macro>
+                    <description>Usuário para acesso SSH</description>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>

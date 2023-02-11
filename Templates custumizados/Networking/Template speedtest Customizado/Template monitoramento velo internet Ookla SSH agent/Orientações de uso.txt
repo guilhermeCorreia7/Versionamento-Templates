@@ -1,0 +1,39 @@
+Orientações de uso do Template Internet Speedtest Ookla SSH agent:
+
+***Vou seguir a explicação focando para realizar o teste dentro do SO windows, pois a o guia de instalação fornecido pela Ookla para os sistemas Linux baseados em Redhat não estava funcionando, mas para aplicar no Linux basta ajustar os caminhos e comando de acordo com o sistema***
+
+Necessário ter ou criar um usuário no sistema para acesso vis SSH.
+Na explicação usarei um usuário que se autentica por senha e não chave de acesso.
+
+Criar usuário no windows via cmd:
+	Abra o cmd como admin
+	
+	Digite o comando: net user (usuário) (senha) /add
+	Substitua as informações em parênteses pelo nome de usuário real e senha desejados – é preciso excluir os parênteses.
+	
+	Caso precise deletar, digite o comando: net user (usuário) /delete
+
+Criar usuário Oracle Linux via terminal:
+	Abra o terminal como root
+	
+	Digite: useradd -g (grupo) -c "(descrição)" (usuário)
+	Em seguida defina a senha usando: passwd (usuário)
+
+Dentro desse usuário, instale o aplicativo da Ookla para conseguir realizar o teste de velocidade da internet
+Acesse o site da Ookla e siga as intruções de acordo com o seu sistema: https://www.speedtest.net/pt/apps
+
+Após instalado, no windows, deixe o aplicativo dentro do caminho C:\Users\(usuário) para facilitar o uso do template mais tarde.
+
+Faça o import do 'Template Internet Speedtest Ookla SSH agent' no Zabbix.
+
+Crie um novo host e associe o template, defina o nome que preferir, e coloque o ip da máquina onde está instalado o app do speedtest a mesma máquina que você criou o usuário para acesso.
+
+No host, defina as macros {$SSH.USERNAME}, {$SSH.PASS} com o usuário e senha para acesso.
+
+Acesse o host, abra o item 'Raw Speedtest Ookla' e clique em 'Testar' e depois em 'get value and test', se ele retornar um Json, é por que está funcionando.
+
+Considerações:
+
+Em caso de erro de conexão recusada no Windows, mesmo após a criação da regra no firewall para liberar a porta 22, verifique se o OpenSSH.Server está instalado e configurado, para isso, leia o arquivo 'SSH Windows'.
+
+Há mais informações que podem ser extraidas do retorno Json, criei itens para as que achei mais relevante para o meu ambiente e analise, sinta-se a vontade para adptar ao seu ambiente.
